@@ -43,7 +43,3 @@ pip freeze > requirements.txt
 ```
 
 Dadurch wird deine aktuelle Umgebung ausgelesen und alle Abhängigkeiten in `requirements.txt` geschrieben.
-
-## Lizenz
-
-Dieses Projekt steht unter der MIT-Lizenz. Siehe die Datei [LICENSE](LICENSE) für Details.
