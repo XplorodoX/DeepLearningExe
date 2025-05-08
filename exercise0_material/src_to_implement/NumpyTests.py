@@ -11,8 +11,8 @@ class TestCheckers(unittest.TestCase):
     def setUp(self):
         # Loads the reference images
 
-        self.reference_img = np.load('reference_arrays/checker.npy')
-        self.reference_img2 = np.load('reference_arrays/checker2.npy')
+        self.reference_img = np.load('exercise0_material/src_to_implement/reference_arrays/checker.npy')
+        self.reference_img2 = np.load('exercise0_material/src_to_implement/reference_arrays/checker2.npy')
 
     def testPattern(self):
         # Creates a checkerboard pattern with resolution 250x250
@@ -49,8 +49,8 @@ class TestCircle(unittest.TestCase):
     def setUp(self):
         # Loads the reference images
 
-        self.reference_img = np.load('reference_arrays/circle.npy')
-        self.reference_img2 = np.load('reference_arrays/circle2.npy')
+        self.reference_img = np.load('exercise0_material/src_to_implement/reference_arrays/circle.npy')
+        self.reference_img2 = np.load('exercise0_material/src_to_implement/reference_arrays/circle2.npy')
 
     def _IoU(self, array1, array2):
         # Utility function returning the intersection over union value
@@ -117,8 +117,8 @@ class TestSpectrum(unittest.TestCase):
 
     def setUp(self):
         # Loads the reference images
-        self.reference_img = np.load('reference_arrays/spectrum.npy')
-        self.reference_img2 = np.load('reference_arrays/spectrum2.npy')
+        self.reference_img = np.load('exercise0_material/src_to_implement/reference_arrays/spectrum.npy')
+        self.reference_img2 = np.load('exercise0_material/src_to_implement/reference_arrays/spectrum2.npy')
 
     def testPattern(self):
         # Creates an RGB spectrum with resolution 255x255x3 and compares it to the reference image
