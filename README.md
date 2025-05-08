@@ -34,16 +34,6 @@
    * Der Parameter `-r` steht für „requirements“ und weist Pip an, die aufgelisteten Pakete aus der Datei zu installieren.
    * Solltest du bereits eine ältere Version eines Pakets installiert haben, wird Pip es auf die in `requirements.txt` angegebene Version aktualisieren.
 
-## Nutzung
-
-Nach der erfolgreichen Installation kannst du die Skripte im Projekt ausführen. Beispielsweise:
-
-```bash
-python train_model.py --config config/train_config.yaml
-```
-
-Passe dabei die Pfade zu Konfigurationsdateien oder Datensätzen nach Bedarf an.
-
 ## Aktualisierung der `requirements.txt`
 
 Solltest du während der Weiterentwicklung neue Pakete installieren und diese in der Requirements-Datei festhalten wollen, kannst du:
