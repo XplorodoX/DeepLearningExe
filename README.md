@@ -1,9 +1,5 @@
 # DeepLearningExe
 
-## Projektübersicht
-
-`DeepLearningExe` ist ein Beispielprojekt für Deep-Learning-Modelle. Dieses Repository enthält Skripte, Konfigurationsdateien und ein `requirements.txt`, das alle benötigten Python-Abhängigkeiten auflistet.
-
 ## Voraussetzungen
 
 * Python 3.7 oder höher
