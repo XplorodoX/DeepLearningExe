@@ -20,7 +20,15 @@ class ImageGenerator:
 
         self.class_dict = {0: 'airplane', 1: 'automobile', 2: 'bird', 3: 'cat', 4: 'deer', 5: 'dog', 6: 'frog',
                            7: 'horse', 8: 'ship', 9: 'truck'}
+        
         #TODO: implement constructor
+        self.batch_size = batch_size
+        self.image_size = image_size
+        self.file_path = os.path.abspath(file_path)
+        self.label_path = os.path.abspath(label_path)
+        self.rotation = rotation
+        self.mirroring = mirroring
+        self.shuffle = shuffle
 
     def next(self):
         # This function creates a batch of images and corresponding labels and returns them.
@@ -28,27 +36,47 @@ class ImageGenerator:
         # Note that your amount of total data might not be divisible without remainder with the batch_size.
         # Think about how to handle such cases
         #TODO: implement next method
-        pass
-        #return images, labels
+        
+        images = np.zeros((self.batch_size, self.image_size[0], self.image_size[1], 3))
+        labels = np.zeros((self.batch_size, 10))
+        return images, labels
 
-    def augment(self,img):
+    def augment(self, img):
         # this function takes a single image as an input and performs a random transformation
         # (mirroring and/or rotation) on it and outputs the transformed image
-        #TODO: implement augmentation function
+
+        # Random horizontal flip
+        if getattr(self, 'mirroring', False):
+            if np.random.rand() < 0.5:
+                img = np.fliplr(img)
+
+        # Random rotation by 0°, 90°, 180° or 270°
+        if getattr(self, 'rotation', False):
+            k = np.random.choice([0, 1, 2, 3])
+            img = np.rot90(img, k)
 
         return img
 
     def current_epoch(self):
         # return the current epoch number
+        
         return 0
 
     def class_name(self, x):
         # This function returns the class name for a specific input
         #TODO: implement class name function
-        return
+        return self.class_dict[x]
+    
     def show(self):
         # In order to verify that the generator creates batches as required, this functions calls next to get a
         # batch of images and labels and visualizes it.
         #TODO: implement show method
-        pass
-
+        images, labels = self.next()
+        fig, axes = plt.subplots(2, 5, figsize=(15, 6))
+        for i in range(2):
+            for j in range(5):
+                axes[i, j].imshow(images[i * 5 + j])
+                axes[i, j].set_title(self.class_name(np.argmax(labels[i * 5 + j])))
+                axes[i, j].axis('off')
+        plt.tight_layout()
+        plt.show()
