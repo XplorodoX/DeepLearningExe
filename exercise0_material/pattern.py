@@ -1,0 +1,60 @@
+import numpy as np
+import matplotlib.pyplot as plt
+
+class Checker:
+    def __init__(self, resolution, tile_size):
+        self.resolution = resolution
+        self.tile_size = tile_size
+        self.output = None
+
+    def draw(self):
+        if self.resolution % (2 * self.tile_size) != 0:
+            raise ValueError("resolution must be divisible by 2 * tile_size")
+        pairs = self.resolution // (2 * self.tile_size)
+
+        base = np.array([[0, 1],
+                         [1, 0]], dtype=np.float32)
+
+        board = np.tile(base, (pairs, pairs))
+
+        block = np.ones((self.tile_size, self.tile_size), dtype=np.float32)
+        output = np.kron(board, block)
+
+        self.output = output
+        return output.copy()
+
+    def show(self):
+        if self.output is None:
+            self.draw()
+        plt.imshow(self.output, cmap='gray', vmin=0, vmax=1)
+        plt.axis('off')
+        plt.show()
+
+class Circle:
+    def __init__(self, resolution, position, radius):
+        self.resolution = resolution
+        self.position = position
+        self.radius = radius
+        self.output = None
+
+    def draw(self):
+        ix = np.arange(self.resolution, dtype=np.float32)
+        iy = np.arange(self.resolution, dtype=np.float32)[:, None]
+        cx, cy = self.position
+        dist2 = (ix - cx)**2 + (iy - cy)**2
+
+        mask = dist2 <= (self.radius ** 2)
+
+        output = np.zeros((self.resolution, self.resolution), dtype=np.float32)
+        output[mask] = 1.0
+
+        self.output = output
+        return output.copy()
+
+    def show(self):
+        if self.output is None:
+            self.draw()
+        plt.imshow(self.output, cmap='gray', vmin=0, vmax=1)
+        plt.axis('off')
+        plt.tight_layout()
+        plt.show()
