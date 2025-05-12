@@ -41,8 +41,16 @@ class Circle:
         ix = np.arange(self.resolution, dtype=np.float32)
         iy = np.arange(self.resolution, dtype=np.float32)[:, None]
         cx, cy = self.position
+        # support position=int/float or (x, y)
+        pos = self.position
+        if isinstance(pos, (int, float)):
+            cx = cy = float(pos)
+        else:
+            cx, cy = pos
+        ix = np.arange(self.resolution, dtype=np.float32)
+        iy = np.arange(self.resolution, dtype=np.float32)[:, None]
         dist2 = (ix - cx)**2 + (iy - cy)**2
-
+         
         mask = dist2 <= (self.radius ** 2)
 
         output = np.zeros((self.resolution, self.resolution), dtype=np.float32)
@@ -58,3 +66,34 @@ class Circle:
         plt.axis('off')
         plt.tight_layout()
         plt.show()
+
+class Spectrum:
+    def __init__(self, resolution):
+        self.resolution = 512
+        self.output = None
+    
+    def draw(self):
+        res = self.resolution
+        x = np.linspace(0.0, 1.0, res, dtype=np.float32)  
+        y = np.linspace(0.0, 1.0, res, dtype=np.float32) 
+
+        X, Y = np.meshgrid(x, y) 
+
+        R = X                    
+        G = Y                    
+        B = 1.0 - X              
+
+        spectrum = np.stack([R, G, B], axis=2)
+
+        self.output = spectrum
+        return spectrum.copy()
+    
+    def show(self):
+        if self.output is None:
+            self.draw()
+        plt.imshow(self.output, cmap='gray', vmin=-1, vmax=1)
+        plt.axis('off')
+        plt.tight_layout()
+        plt.show()
+
+        
