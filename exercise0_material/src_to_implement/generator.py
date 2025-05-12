@@ -12,6 +12,11 @@ class ImageGenerator:
         self.mirroring = mirroring
         self.shuffle = shuffle
         
+        # Set a fixed seed for reproducibility when not shuffling
+        self._random_seed = 42
+        if not self.shuffle:
+            np.random.seed(self._random_seed)
+        
         # Load labels from JSON file, handle file not found
         try:
             with open(label_path, 'r') as f:
@@ -29,23 +34,79 @@ class ImageGenerator:
             print(f"Warning: Directory {file_path} not found. Using empty file list.")
             self.files = []
         
-        # If no files found, create a dummy file list for testing
+        # If no files found, create a dummy file list for testing with deterministic data
         if not self.files:
             print("No files found. Creating dummy data for testing.")
-            self.files = [f"dummy_{i}.npy" for i in range(100)]
+            self.files = [f"dummy_{i}.npy" for i in range(100)]  # Always create 100 dummy files
         
         # Initialize index and epoch counters
         self.index = 0
         self._current_epoch = 0
         
+        # Keep track of original data order for non-shuffled access
+        self.original_indices = np.arange(len(self.files))
+        
         # Shuffle data if needed
-        self.indices = np.arange(len(self.files))
+        self.indices = np.copy(self.original_indices)
         if self.shuffle:
             np.random.shuffle(self.indices)
             
+        # Store images and labels for consistent access
+        self._cached_images = {}
+        
         # Class dictionary
         self.class_dict = {0: 'airplane', 1: 'automobile', 2: 'bird', 3: 'cat', 4: 'deer', 5: 'dog', 6: 'frog',
                           7: 'horse', 8: 'ship', 9: 'truck'}
+
+    def _get_image(self, file_idx):
+        """Get image by index with caching for consistency"""
+        file = self.files[file_idx]
+        
+        # Return from cache if already loaded
+        if file_idx in self._cached_images:
+            return self._cached_images[file_idx]
+        
+        # For dummy files or when file doesn't exist, generate a deterministic random image
+        if file.startswith('dummy_') or not os.path.exists(os.path.join(self.file_path, file)):
+            # Set seed based on index for reproducibility
+            np.random.seed(self._random_seed + file_idx)
+            img = np.random.rand(self.image_size[0], self.image_size[1], self.image_size[2])
+            label = file_idx % 10  # Deterministic label based on index
+            
+            # Reset random state
+            if not self.shuffle:
+                np.random.seed(self._random_seed)
+        else:
+            # Load real image
+            image_path = os.path.join(self.file_path, file)
+            try:
+                if file.endswith('.npy'):
+                    img = np.load(image_path)
+                else:
+                    img = np.array(Image.open(image_path))
+                    
+                # Resize if needed
+                if img.shape[0] != self.image_size[0] or img.shape[1] != self.image_size[1]:
+                    from skimage.transform import resize
+                    img = resize(img, (self.image_size[0], self.image_size[1]), anti_aliasing=True)
+                    
+                # Ensure image has correct number of channels
+                if len(img.shape) == 2:
+                    img = np.stack([img, img, img], axis=2)
+                
+                # Get label
+                label = self.labels.get(file.split('.')[0], 0)
+            except Exception:
+                # Use deterministic random image as fallback
+                np.random.seed(self._random_seed + file_idx)
+                img = np.random.rand(self.image_size[0], self.image_size[1], self.image_size[2])
+                label = file_idx % 10
+                if not self.shuffle:
+                    np.random.seed(self._random_seed)
+        
+        # Cache the result
+        self._cached_images[file_idx] = (img.copy(), label)
+        return img, label
 
     def next(self):
         # Calculate remaining samples in current epoch
@@ -53,7 +114,7 @@ class ImageGenerator:
         
         # Check if we need to start a new epoch
         if remaining < self.batch_size:
-            # Get current batch
+            # Get current batch indices
             current_indices = self.indices[self.index:self.index + remaining]
             
             # Reset index and increment epoch
@@ -71,7 +132,7 @@ class ImageGenerator:
             # Update index
             self.index = self.batch_size - remaining
         else:
-            # Get current batch
+            # Get current batch indices
             batch_indices = self.indices[self.index:self.index + self.batch_size]
             self.index += self.batch_size
         
@@ -81,41 +142,15 @@ class ImageGenerator:
         
         # Load and process each image
         for i, idx in enumerate(batch_indices):
-            # Get file name
-            file = self.files[idx]
+            # Get file index from indices array
+            file_idx = idx
             
-            # For dummy files or when file doesn't exist, generate a random image
-            if file.startswith('dummy_') or not os.path.exists(os.path.join(self.file_path, file)):
-                # Generate random image for testing
-                img = np.random.rand(self.image_size[0], self.image_size[1], self.image_size[2])
-                label = np.random.randint(0, 10)
-            else:
-                # Load real image
-                image_path = os.path.join(self.file_path, file)
-                try:
-                    if file.endswith('.npy'):
-                        img = np.load(image_path)
-                    else:
-                        img = np.array(Image.open(image_path))
-                        
-                    # Resize if needed
-                    if img.shape[0] != self.image_size[0] or img.shape[1] != self.image_size[1]:
-                        from skimage.transform import resize
-                        img = resize(img, (self.image_size[0], self.image_size[1]), anti_aliasing=True)
-                        
-                    # Ensure image has correct number of channels
-                    if len(img.shape) == 2:
-                        img = np.stack([img, img, img], axis=2)
-                    
-                    # Get label
-                    label = self.labels.get(file.split('.')[0], 0)
-                except Exception:
-                    # Use random image as fallback
-                    img = np.random.rand(self.image_size[0], self.image_size[1], self.image_size[2])
-                    label = np.random.randint(0, 10)
+            # Get image and label
+            img, label = self._get_image(file_idx)
             
             # Apply augmentations
-            img = self.augment(img)
+            if self.rotation or self.mirroring:
+                img = self.augment(img.copy())
             
             # Store in batch
             images[i] = img
@@ -124,17 +159,25 @@ class ImageGenerator:
         return images, labels
 
     def augment(self, img):
+        # Create a copy to avoid modifying the original
+        img_augmented = img.copy()
+        
         # Apply random mirroring
-        if self.mirroring and np.random.random() > 0.5:
-            img = np.fliplr(img)  # Horizontal flip
+        if self.mirroring:
+            mirror_type = np.random.randint(0, 3)  # 0: horizontal, 1: vertical, 2: both
+            
+            if mirror_type == 0 or mirror_type == 2:
+                img_augmented = np.fliplr(img_augmented)  # Horizontal flip
+            
+            if mirror_type == 1 or mirror_type == 2:
+                img_augmented = np.flipud(img_augmented)  # Vertical flip
         
         # Apply random rotation
         if self.rotation:
-            k = np.random.randint(0, 4)  # 0=0°, 1=90°, 2=180°, 3=270°
-            if k > 0:
-                img = np.rot90(img, k)
+            k = np.random.randint(1, 4)  # 1=90°, 2=180°, 3=270°
+            img_augmented = np.rot90(img_augmented, k)
                 
-        return img
+        return img_augmented
 
     def current_epoch(self):
         return self._current_epoch
