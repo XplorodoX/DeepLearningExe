@@ -10,9 +10,11 @@ class ReLU:
         :param input_tensor: Input tensor       
         :return: ReLU output
         """
-        # Apply ReLU activation function
+
+        # Store the input tensor for backward pass
         self.input_tensor = input_tensor
-        output = np.maximum(0, input_tensor)
+        # Apply ReLU activation
+        output = np.maximum(0, input_tensor) 
         return output
     
     def backward(self, error_tensor):
@@ -22,5 +24,7 @@ class ReLU:
         :return: Gradient of the loss with respect to the input
         """
         # Compute the gradient of ReLU
-        gradient = np.where(self.input_tensor > 0, 1, 0)
-        return error_tensor * gradient
+
+        gradient = error_tensor.copy()
+
+        return error_tensor*(self.input_tensor > 0)

@@ -7,7 +7,7 @@ class CrossEntropyLoss:
         """
         self.predictions = None
         self.targets = None
-
+    
     def forward(self, prediction_tensor, label_tensor):
         """
         Compute the forward pass of the loss function.
@@ -15,17 +15,20 @@ class CrossEntropyLoss:
         :param label_tensor: True labels (one-hot encoded).
         :return: Computed loss value.
         """
-        # Add a small epsilon to avoid log(0)
-        epsilon = 1e-15  # More standard value
-        # Ensure prediction values are positive (between epsilon and 1)
-        prediction_tensor = np.clip(prediction_tensor, epsilon, 1 - epsilon)
+       
         
+        eps = np.finfo(float).eps
+        
+        # Add small epsilon to avoid log(0)
+        prediction_tensor_safe = np.maximum(prediction_tensor, eps)
+
         # Store tensors for backward pass
-        self.predictions = prediction_tensor
+        self.predictions = prediction_tensor_safe
         self.targets = label_tensor
         
-        # Calculate -y*log(y')
-        loss = -np.sum(label_tensor * np.log(prediction_tensor))
+        # Cross entropy loss: -Σ(y_true * log(y_pred))
+        # Sum across all elements, not normalized by batch size
+        loss = -np.sum(label_tensor * np.log(prediction_tensor_safe))
         
         return loss
 
@@ -35,6 +38,11 @@ class CrossEntropyLoss:
         :param label_tensor: Optional label tensor (ignored, using stored targets)
         :return: Gradient of the loss with respect to predictions.
         """
-        # Gradient is -y/y'
-        grad = -self.targets / self.predictions
-        return grad
+        # If label_tensor is provided, use it instead of stored targets
+        if label_tensor is not None:
+            self.targets = label_tensor
+        
+        # Gradient of cross entropy with respect to predictions is -y_true/y_pred
+        gradient = -self.targets / self.predictions + np.finfo(float).eps
+        
+        return gradient

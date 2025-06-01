@@ -1,30 +1,22 @@
 import numpy as np
 
 class Base:
-    def __init__(self, input_size, output_size):
-        self.input_size = input_size
-        self.output_size = output_size
-        self.trainable = True
+    def __init__(self):
+        self.trainable = False
+        # This member variable will be populated by the optimizer.
+        # It is not set by the layer itself.
+        self._optimizer = None 
 
     def forward(self, input_tensor):
-        """
-        Forward pass of the layer.
-        :param input_tensor: Input tensor to the layer.
-        :return: Output tensor from the layer.
-        """
-        raise NotImplementedError("Forward pass not implemented.")
+        raise NotImplementedError
 
-    def backward(self, grad_output):
-        """
-        Backward pass of the layer.
-        :param grad_output: Gradient of the loss with respect to the output of this layer.
-        :return: Gradient of the loss with respect to the input of this layer.
-        """
-        raise NotImplementedError("Backward pass not implemented.")
+    def backward(self, error_tensor):
+        raise NotImplementedError
 
-    def update(self, learning_rate):
-        """
-        Update the weights and biases of the layer.
-        :param learning_rate: Learning rate for the update.
-        """
-        raise NotImplementedError("Update method not implemented.")
+    @property
+    def optimizer(self):
+        return self._optimizer
+
+    @optimizer.setter
+    def optimizer(self, optimizer):
+        self._optimizer = optimizer
