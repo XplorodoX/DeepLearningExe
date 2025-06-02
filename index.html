@@ -1,1 +1,1000 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Deep Learning Infografik - Detailliert mit Quiz</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <script>
+      window.MathJax = {
+        tex: {
+          inlineMath: [['$', '$'], ['\\(', '\\)']],
+          displayMath: [['$$', '$$'], ['\\[', '\\]']],
+          tags: 'ams' // American Mathematical Society Tagging
+        },
+        svg: {
+          fontCache: 'global'
+        }
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" id="MathJax-script" async></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f3e8ff; /* Light purple background for Deep Learning theme */
+            color: #333;
+        }
+        .chart-container { /* Beibehalten für potenzielle Diagramme */
+            position: relative;
+            width: 100%;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+            height: 300px; /* Default height */
+            max-height: 400px;
+        }
+        @media (min-width: 768px) { /* Medium devices and up */
+            .chart-container {
+                height: 350px;
+            }
+        }
+        .stat-card { /* Allgemeine Statistik-Karte */
+            background-color: #ffffff;
+            border-radius: 0.5rem; /* 8px */
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+            padding: 1.5rem; /* 24px */
+            text-align: center;
+        }
+        .stat-value { /* Wert in der Statistik-Karte */
+            font-size: 2.5rem; /* 40px */
+            font-weight: 700;
+            color: #6d28d9; /* Deep purple */
+        }
+        .stat-label { /* Label in der Statistik-Karte */
+            font-size: 1rem; /* 16px */
+            color: #8b5cf6; /* Lighter purple */
+        }
+        .concept-box { /* Box für Konzepte */
+            background-color: #ede9fe; /* Very light purple */
+            border: 1px solid #c4b5fd; /* Light purple border */
+            border-radius: 0.5rem; /* 8px */
+            padding: 1.5rem; /* 24px */
+            margin-bottom: 1.5rem; /* 24px */
+        }
+        .flow-step { /* Schritte in einem Flussdiagramm */
+            background-color: #ffffff;
+            border: 2px solid #8b5cf6; /* Purple border */
+            border-radius: 0.5rem; /* 8px */
+            padding: 1rem; /* 16px */
+            text-align: center;
+            margin-bottom: 0.5rem; /* 8px */
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .flow-arrow { /* Pfeile im Flussdiagramm */
+            font-size: 1.5rem; /* 24px */
+            color: #8b5cf6; /* Purple */
+            margin: 0.25rem 0;
+            text-align: center;
+        }
+        h1, h2, h3, h4 {
+            color: #5b21b6; /* Darker purple for headings */
+        }
+        .math-formula { /* Styling für mathematische Formeln */
+            font-family: 'Inter', sans-serif; /* Konsistente Schriftart */
+            font-size: 1.05em;
+            background-color: #f5f3ff; /* Slightly off-white purple */
+            padding: 0.2em 0.4em;
+            border-radius: 0.25rem; /* 4px */
+            color: #4c1d95; /* Dark purple text */
+            display: inline-block; /* Für besseres Layout */
+        }
+        .equation-block { /* Block für Gleichungen */
+            background-color: #faf5ff; /* Very light purple */
+            border: 1px solid #e9d5ff; /* Light purple border */
+            padding: 1rem; /* 16px */
+            border-radius: 0.25rem; /* 4px */
+            margin-top: 0.5rem; /* 8px */
+            margin-bottom: 0.5rem; /* 8px */
+            overflow-x: auto; /* Für lange Gleichungen */
+        }
+        .explanation-point { /* Aufzählungspunkte */
+            margin-bottom: 0.75rem; /* 12px */
+            padding-left: 1.25rem; /* 20px */
+            position: relative;
+        }
+        .explanation-point::before { /* Eigener Bullet Point */
+            content: "💡"; /* Glühbirnen-Emoji als Bullet */
+            position: absolute;
+            left: -0.25rem;
+            color: #8b5cf6; /* Purple */
+        }
+        .quiz-container { /* Container für das Quiz */
+            background-color: #ffffff;
+            border-radius: 0.75rem; /* 12px */
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+            padding: 2rem; /* 32px */
+        }
+        .quiz-question { /* Quizfrage */
+            font-size: 1.25rem; /* 20px */
+            font-weight: 600;
+            margin-bottom: 1.5rem; /* 24px */
+            color: #5b21b6; /* Darker purple */
+        }
+        .quiz-option { /* Quiz-Antwortoption */
+            display: block;
+            width: 100%; 
+            background-color: #f5f3ff; /* Light purple background for options */
+            border: 1px solid #d8b4fe; /* Purple border */
+            border-radius: 0.375rem; /* 6px */
+            padding: 0.75rem 1rem; /* 12px 16px */
+            margin-bottom: 0.75rem; /* 12px */
+            cursor: pointer;
+            transition: background-color 0.2s ease-in-out, border-color 0.2s ease-in-out;
+            text-align: left; 
+        }
+        .quiz-option:hover {
+            background-color: #ede9fe; /* Slightly darker purple on hover */
+            border-color: #a78bfa; /* Darker purple border on hover */
+        }
+        .quiz-option.selected { /* Ausgewählte Option */
+            background-color: #8b5cf6 !important; 
+            color: white !important;
+            border-color: #6d28d9 !important;
+        }
+         .quiz-option.correct { /* Korrekte Option */
+            background-color: #d1fae5 !important; /* Green for correct */
+            color: #065f46 !important;
+            border-color: #6ee7b7 !important;
+        }
+        .quiz-option.incorrect { /* Falsche Option */
+            background-color: #fee2e2 !important; /* Red for incorrect */
+            color: #991b1b !important;
+            border-color: #fca5a5 !important;
+        }
+        .quiz-feedback { /* Feedback-Bereich */
+            margin-top: 1rem; /* 16px */
+            padding: 0.75rem; /* 12px */
+            border-radius: 0.375rem; /* 6px */
+            font-weight: 500;
+        }
+        .feedback-correct { /* Styling für korrektes Feedback */
+            background-color: #dcfce7; /* Light green */
+            color: #166534; /* Dark green */
+            border: 1px solid #86efac; /* Green border */
+        }
+        .feedback-incorrect { /* Styling für falsches Feedback */
+            background-color: #ffe4e6; /* Light red */
+            color: #9f1239; /* Dark red */
+            border: 1px solid #fda4af; /* Red border */
+        }
+        .quiz-navigation button { /* Buttons für Quiz-Navigation */
+            background-color: #8b5cf6; /* Purple */
+            color: white;
+            padding: 0.5rem 1.5rem; /* 8px 24px */
+            border-radius: 0.375rem; /* 6px */
+            font-weight: 600;
+            transition: background-color 0.2s;
+        }
+        .quiz-navigation button:hover {
+            background-color: #7c3aed; /* Darker purple on hover */
+        }
+        .quiz-navigation button:disabled {
+            background-color: #a7a2a2; /* Gray for disabled */
+            cursor: not-allowed;
+        }
+        .lang-btn { /* Sprachauswahl-Buttons */
+            padding: 0.5rem 1rem;
+            border-radius: 0.375rem; /* 6px */
+            font-size: 0.875rem; /* text-sm */
+            font-weight: 500; /* font-medium */
+            transition: background-color 0.2s;
+        }
+        .lang-btn.active { /* Aktiver Sprach-Button */
+            background-color: #5b21b6; /* Darker purple */
+            color: white;
+        }
+        .lang-btn:not(.active) { /* Inaktiver Sprach-Button */
+            background-color: #8b5cf6; /* Purple */
+            color: white;
+        }
+         .lang-btn:not(.active):hover {
+            background-color: #7c3aed; /* Darker purple on hover */
+        }
+        .sub-concept-box { /* Box für Unterkonzepte */
+            background-color: #f5f3ff; /* Even lighter purple */
+            border: 1px solid #d8b4fe; /* Light purple border */
+            border-radius: 0.375rem; /* 6px */
+            padding: 1rem; /* 16px */
+            margin-top: 1rem; /* 16px */
+        }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="fixed top-4 right-4 z-50 space-x-2">
+        <button id="lang-de-btn" data-lang="de" class="lang-btn">Deutsch</button>
+        <button id="lang-en-btn" data-lang="en" class="lang-btn">English</button>
+    </div>
 
+    <header class="bg-purple-700 text-white p-6 shadow-lg">
+        <div class="container mx-auto text-center">
+            <h1 class="text-4xl font-bold" data-i18n="headerTitle">Deep Learning: Detaillierte Einblicke & Quiz</h1>
+            <p class="mt-2 text-lg" data-i18n="headerSubtitle">Konzepte, Architekturen und interaktives Quiz</p>
+        </div>
+    </header>
+
+    <main class="container mx-auto p-4 md:p-8 space-y-16">
+
+        <section id="intro-dl" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section1Title">1. Einführung in Deep Learning</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section1Intro">
+                Deep Learning ist ein Teilbereich des maschinellen Lernens, der auf künstlichen neuronalen Netzen mit vielen Schichten (tiefen Architekturen) basiert. Es ermöglicht Computern, komplexe Muster und Hierarchien von Merkmalen aus großen Datenmengen zu lernen. Wichtige Buzzwords sind <strong>Künstliche Intelligenz (KI)</strong>, <strong>Maschinelles Lernen (ML)</strong> und <strong>Representation Learning</strong>, da Deep Learning oft automatisch relevante Merkmale aus Rohdaten extrahiert.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 mb-10 items-start">
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-4 text-purple-600" data-i18n="motivationTitle">Motivation und Durchbrüche</h3>
+                    <ul class="list-none space-y-2">
+                        <li class="explanation-point" data-i18n="motivationImagenet"><strong>ImageNet Challenge:</strong> Der Sieg von AlexNet im Jahr 2012 zeigte die Überlegenheit von tiefen CNNs bei der Bilderkennung.</li>
+                        <li class="explanation-point" data-i18n="motivationAlphago"><strong>AlphaGo:</strong> Besiegte menschliche Meister im Go, was die Leistungsfähigkeit von Deep Reinforcement Learning demonstrierte.</li>
+                        <li class="explanation-point" data-i18n="motivationDeepdream"><strong>DeepDream:</strong> Visualisierungen, die zeigen, was neuronale Netze "sehen" oder gelernt haben.</li>
+                        <li class="explanation-point" data-i18n="motivationYolo"><strong>YOLO (You Only Look Once):</strong> Echtzeit-Objekterkennung mit beeindruckender Geschwindigkeit und Genauigkeit.</li>
+                    </ul>
+                </div>
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-4 text-purple-600" data-i18n="applicationsTitle">Anwendungsbeispiele</h3>
+                     <ul class="list-none space-y-2">
+                        <li class="explanation-point" data-i18n="appAutonomesFahren"><strong>Autonomes Fahren:</strong> Objekterkennung, Fahrspurerkennung.</li>
+                        <li class="explanation-point" data-i18n="appSmartDevices"><strong>Smarte Geräte:</strong> Energieverbrauchsprognose.</li>
+                        <li class="explanation-point" data-i18n="appMedizin"><strong>Medizinische Bildanalyse:</strong> Tumordiagnostik, Organsegmentierung, Landmarkenerkennung.</li>
+                        <li class="explanation-point" data-i18n="appSprachverarbeitung"><strong>Sprachverarbeitung & Übersetzung:</strong> Siri, Google Translate.</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="concept-box bg-indigo-50 border-indigo-200 p-5">
+                <h4 class="text-lg font-semibold text-indigo-700 mb-2" data-i18n="dlPipelineTitle">Von der klassischen Bildverarbeitung zu Deep Learning</h4>
+                <p class="text-gray-700" data-i18n="dlPipelineDesc">Die klassische Bildverarbeitungspipeline (Vorverarbeitung, Merkmalsextraktion, Klassifikation) wird im Deep Learning oft durch ein End-to-End-Modell ersetzt, das Merkmale und Klassifikator gemeinsam lernt ("Representation Learning Engine").</p>
+            </div>
+        </section>
+
+        <section id="ffnn" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section2Title">2. Feed Forward Neuronale Netze (FFNNs)</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section2Intro">
+                Feed Forward Neuronale Netze, auch Multi-Layer Perceptrons (MLPs) genannt, sind die grundlegendste Form tiefer neuronaler Netze. Informationen fließen nur in eine Richtung – vom Input-Layer über optionale Hidden-Layer zum Output-Layer.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 mb-10">
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="perceptronTitle">Das Perzeptron & XOR-Problem</h3>
+                    <p class="text-sm text-gray-700 mb-2" data-i18n="perceptronDesc">Ein einzelnes Perzeptron kann nur linear separierbare Probleme lösen. Das XOR-Problem ist ein klassisches Beispiel für ein nicht linear separierbares Problem, das durch ein einzelnes Perzeptron nicht gelöst werden kann.</p>
+                    <p class="text-sm text-gray-700" data-i18n="mlpSolution">MLPs mit mindestens einem Hidden-Layer und nichtlinearen Aktivierungsfunktionen können solche Probleme lösen.</p>
+                </div>
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="universalApproximationTitle">Universal Approximation Theorem</h3>
+                    <p class="text-sm text-gray-700" data-i18n="universalApproximationDesc">Ein FFNN mit einer einzigen Hidden-Layer, die eine ausreichende Anzahl von Neuronen und eine nichtlineare Aktivierungsfunktion (z.B. Sigmoid) enthält, kann jede kontinuierliche Funktion auf einer kompakten Teilmenge von $\mathbb{R}^n$ mit beliebiger Genauigkeit approximieren. Dies zeigt die theoretische Mächtigkeit von MLPs.</p>
+                </div>
+            </div>
+            <div class="concept-box">
+                <h3 class="text-xl font-semibold mb-4 text-purple-600" data-i18n="softmaxTitle">Softmax-Aktivierungsfunktion für Klassifikation</h3>
+                <p class="text-sm text-gray-700 mb-2" data-i18n="softmaxDesc">Die Softmax-Funktion wird typischerweise im Output-Layer für Multi-Klassen-Klassifikationsprobleme verwendet. Sie transformiert einen Vektor von reellen Zahlen (Logits) in eine Wahrscheinlichkeitsverteilung über die Klassen.</p>
+                <div class="equation-block text-sm">
+                    $\text{softmax}(x_i) = \frac{e^{x_i}}{\sum_j e^{x_j}}$
+                </div>
+                <p class="text-xs text-gray-500 mt-1" data-i18n="softmaxProperties">Eigenschaften: Alle Ausgabewerte liegen zwischen 0 und 1 und summieren sich zu 1.</p>
+            </div>
+             <div class="mt-8 concept-box bg-indigo-50 border-indigo-200 p-5">
+                <h3 class="text-xl font-semibold text-indigo-700 mb-3" data-i18n="backpropTitle">Optimierung: Gradient Descent & Backpropagation</h3>
+                <p class="text-gray-700 mb-2" data-i18n="backpropDesc1">Das Training von FFNNs erfolgt typischerweise durch Minimierung einer Loss-Funktion mittels Gradient Descent. Der Gradient der Loss-Funktion bezüglich der Gewichte wird effizient durch den Backpropagation-Algorithmus berechnet.</p>
+                <p class="text-sm text-gray-600" data-i18n="backpropDesc2">Backpropagation nutzt die Kettenregel der Differentialrechnung, um Fehler vom Output-Layer rückwärts durch das Netzwerk zu propagieren und die Gewichte anzupassen.</p>
+                <p class="text-sm text-red-600 mt-2" data-i18n="vanishingGradientWarning">Herausforderungen: Vanishing Gradients (Gradienten werden sehr klein) oder Exploding Gradients (Gradienten werden sehr groß) können das Training tiefer Netze erschweren.</p>
+            </div>
+        </section>
+
+        <section id="loss-opt" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section3Title">3. Loss-Funktionen und Optimierung</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section3Intro">
+                Loss-Funktionen quantifizieren, wie gut das Modell eine Aufgabe erfüllt. Optimierungsalgorithmen passen die Modellparameter (Gewichte) an, um diesen Loss zu minimieren.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8 mb-10">
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="lossFunctionsTitle">Typische Loss-Funktionen</h3>
+                    <div class="sub-concept-box mb-3">
+                        <h4 class="text-md font-semibold text-purple-500" data-i18n="l2LossTitle">L2-Loss (Mean Squared Error) für Regression:</h4>
+                        <p class="text-xs text-gray-600" data-i18n="l2LossDesc">Misst den durchschnittlichen quadratischen Unterschied zwischen Vorhersage und wahrem Wert.</p>
+                        <span class="math-formula text-sm block mt-1">$L = \frac{1}{M}\sum_{m=1}^{M} ||y_m - \hat{y}(x_m, w)||_2^2$</span>
+                    </div>
+                    <div class="sub-concept-box">
+                        <h4 class="text-md font-semibold text-purple-500" data-i18n="crossEntropyTitle">Cross-Entropy Loss für Klassifikation:</h4>
+                        <p class="text-xs text-gray-600" data-i18n="crossEntropyDesc">Misst die "Distanz" zwischen der vorhergesagten Wahrscheinlichkeitsverteilung (oft nach Softmax) und der wahren (One-Hot-kodierten) Klassenverteilung.</p>
+                        <span class="math-formula text-sm block mt-1">$L = -\sum_{m=1}^{M}\sum_{k=0}^{K} y_{k,m} \log(\hat{y}_{k,m})$</span>
+                    </div>
+                     <div class="sub-concept-box mt-3">
+                        <h4 class="text-md font-semibold text-purple-500" data-i18n="hingeLossTitle">Hinge Loss (oft für SVMs):</h4>
+                        <p class="text-xs text-gray-600" data-i18n="hingeLossDesc">Bestraft Vorhersagen, die auf der falschen Seite der Entscheidungsgrenze liegen und keinen ausreichenden Margin haben.</p>
+                        <span class="math-formula text-sm block mt-1">$L = \sum_{m=1}^{M} \max(0, 1 - y_m \hat{y}(x_m, w))$</span>
+                    </div>
+                </div>
+                 <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="optimizersTitle">Optimierungsalgorithmen</h3>
+                    <ul class="list-none space-y-2 text-sm">
+                        <li class="explanation-point" data-i18n="optimizerSGD"><strong>Stochastic Gradient Descent (SGD):</strong> Aktualisiert Gewichte basierend auf dem Gradienten eines einzelnen Beispiels oder eines Mini-Batches.</li>
+                        <li class="explanation-point" data-i18n="optimizerMomentum"><strong>Momentum:</strong> Beschleunigt SGD in relevanten Richtungen und dämpft Oszillationen.</li>
+                        <li class="explanation-point" data-i18n="optimizerNesterov"><strong>Nesterov Accelerated Gradient (NAG):</strong> Eine verbesserte Version von Momentum, die "vorausschaut".</li>
+                        <li class="explanation-point" data-i18n="optimizerAdaptive"><strong>Adaptive Lernraten-Methoden (AdaGrad, RMSProp, Adam):</strong> Passen die Lernrate für jeden Parameter individuell an, basierend auf vergangenen Gradienten. Adam ist oft eine gute Standardwahl.</li>
+                    </ul>
+                    <p class="mt-3 text-xs text-gray-500" data-i18n="learningRateAnnealing"><strong>Lernraten-Annealing (Decay):</strong> Die Lernrate wird im Laufe des Trainings schrittweise reduziert, um eine feinere Anpassung in der Nähe des Optimums zu ermöglichen.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="activations-cnns" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section4Title">4. Aktivierungsfunktionen & Convolutional Neural Networks (CNNs)</h2>
+            
+            <div class="concept-box mb-10">
+                <h3 class="text-2xl font-semibold mb-4 text-purple-600" data-i18n="activationFunctionsTitle">Aktivierungsfunktionen</h3>
+                <p class="text-sm text-gray-700 mb-4" data-i18n="activationFunctionsDesc">Aktivierungsfunktionen führen Nichtlinearität in das Modell ein, was es Netzen ermöglicht, komplexe Beziehungen zu lernen. Ohne sie wäre ein tiefes Netz nur eine Abfolge linearer Transformationen, was äquivalent zu einer einzigen linearen Transformation wäre.</p>
+                <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="sub-concept-box"><strong>Sigmoid:</strong> $\sigma(x) = \frac{1}{1+e^{-x}}$. Quetscht Werte in $[0,1]$. Probleme: Vanishing Gradients, nicht nullzentriert.</div>
+                    <div class="sub-concept-box"><strong>Tanh (Hyperbolischer Tangens):</strong> $\tanh(x)$. Quetscht Werte in $[-1,1]$. Nullzentriert, aber immer noch Vanishing Gradients.</div>
+                    <div class="sub-concept-box"><strong>ReLU (Rectified Linear Unit):</strong> $f(x) = \max(0,x)$. Effizient, löst teilweise Vanishing Gradient Problem. Nachteil: "Dying ReLU" (Neuronen können inaktiv werden).</div>
+                    <div class="sub-concept-box"><strong>Leaky ReLU / PReLU:</strong> Varianten von ReLU, die einen kleinen negativen Slope haben, um Dying ReLUs zu verhindern. PReLU lernt den Slope.</div>
+                    <div class="sub-concept-box"><strong>ELU (Exponential Linear Unit):</strong> Ähnlich ReLU, aber glatter Übergang für negative Werte, kann zu schnellerem Lernen führen.</div>
+                    <div class="sub-concept-box"><strong>SELU (Scaled ELU):</strong> Selbstnormalisierende Eigenschaften unter bestimmten Bedingungen.</div>
+                     <div class="sub-concept-box"><strong>Swish (SiLU):</strong> $x \cdot \sigma(\beta x)$. Eine von Google gefundene Funktion, die oft gut funktioniert.</div>
+                </div>
+            </div>
+
+            <div class="concept-box">
+                <h3 class="text-2xl font-semibold mb-4 text-purple-600" data-i18n="cnnsTitle">Convolutional Neural Networks (CNNs)</h3>
+                <p class="text-sm text-gray-700 mb-4" data-i18n="cnnsDesc">CNNs sind speziell für die Verarbeitung von Daten mit gitterartiger Topologie (z.B. Bilder) konzipiert. Sie nutzen drei Kernideen: lokale rezeptive Felder, geteilte Gewichte (Shared Weights) und Pooling.</p>
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="sub-concept-box">
+                        <h4 class="text-lg font-semibold text-purple-500" data-i18n="convLayersTitle">Convolutional Layers</h4>
+                        <p class="text-xs text-gray-600" data-i18n="convLayersDesc">Wenden lernbare Filter (Kernels) auf die Eingabedaten an. Jeder Filter ist klein, deckt aber die gesamte Tiefe des Inputs ab und erzeugt eine Feature Map. Durch geteilte Gewichte (der gleiche Filter wird über das gesamte Bild geschoben) wird die Anzahl der Parameter drastisch reduziert und Translationsinvarianz gefördert.</p>
+                        <ul class="text-xs list-disc list-inside mt-1">
+                            <li data-i18n="convPadding"><strong>Padding:</strong> Erhält die räumliche Größe der Feature Maps.</li>
+                            <li data-i18n="convStride"><strong>Stride:</strong> Schrittweite des Filters, kann zur Verkleinerung der Dimensionen verwendet werden.</li>
+                            <li data-i18n="convDilated"><strong>Dilated/Atrous Convolution:</strong> Vergrößert das rezeptive Feld ohne zusätzliche Parameter.</li>
+                             <li data-i18n="conv1x1"><strong>1x1 Convolutions (Network in Network):</strong> Nützlich für Dimensionsreduktion/-expansion über Kanäle und zur Einführung von Nichtlinearität ohne räumliche Filterung.</li>
+                        </ul>
+                    </div>
+                    <div class="sub-concept-box">
+                        <h4 class="text-lg font-semibold text-purple-500" data-i18n="poolingLayersTitle">Pooling Layers</h4>
+                        <p class="text-xs text-gray-600" data-i18n="poolingLayersDesc">Reduzieren die räumliche Größe der Feature Maps, was die Anzahl der Parameter und Berechnungen weiter verringert und eine gewisse Invarianz gegenüber kleinen Verschiebungen schafft.</p>
+                         <ul class="text-xs list-disc list-inside mt-1">
+                            <li data-i18n="poolingMax"><strong>Max Pooling:</strong> Wählt den maximalen Wert aus einer Region.</li>
+                            <li data-i18n="poolingAvg"><strong>Average Pooling:</strong> Berechnet den Durchschnittswert einer Region.</li>
+                             <li data-i18n="poolingStrideAlt">Strided Convolutions werden manchmal als Alternative zum Pooling verwendet.</li>
+                        </ul>
+                    </div>
+                </div>
+                <p class="text-sm text-gray-600 mt-4" data-i18n="cnnArchDesc">Typische CNN-Architekturen bestehen aus einer Abfolge von Convolutional Layers (mit Aktivierungsfunktionen) und Pooling Layers, gefolgt von einem oder mehreren Fully Connected Layers (oder globalem Pooling und 1x1 Convolutions) für die Klassifikation.</p>
+            </div>
+        </section>
+
+        <section id="regularization" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section5Title">5. Regularisierung</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section5Intro">
+                Regularisierungstechniken werden eingesetzt, um Overfitting zu verhindern. Overfitting tritt auf, wenn ein Modell die Trainingsdaten zu gut lernt (inklusive Rauschen) und dadurch schlecht auf neuen, ungesehenen Daten generalisiert. Ziel ist es, die Komplexität des Modells zu kontrollieren und die Generalisierungsfähigkeit zu verbessern.
+            </p>
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="concept-box">
+                    <h4 class="text-lg font-semibold text-purple-600 mb-2" data-i18n="regL1L2Title">L1- und L2-Regularisierung</h4>
+                    <p class="text-sm text-gray-700" data-i18n="regL1L2Desc">Fügen einen Strafterm zur Loss-Funktion hinzu, der von der Größe der Gewichte abhängt. L2 ("Weight Decay") bestraft große Gewichte und führt zu kleineren, diffuseren Gewichten. L1 fördert Sparsity (viele Gewichte werden null).</p>
+                    <span class="math-formula text-xs block mt-1">L2: $L_{reg} = L + \lambda ||w||_2^2$</span>
+                    <span class="math-formula text-xs block mt-1">L1: $L_{reg} = L + \lambda ||w||_1$</span>
+                </div>
+                <div class="concept-box">
+                    <h4 class="text-lg font-semibold text-purple-600 mb-2" data-i18n="regDropoutTitle">Dropout</h4>
+                    <p class="text-sm text-gray-700" data-i18n="regDropoutDesc">Während des Trainings werden zufällig Neuronen (und ihre Verbindungen) mit einer bestimmten Wahrscheinlichkeit "ausgeschaltet". Dies zwingt das Netzwerk, redundante Repräsentationen zu lernen und verhindert Co-Adaptation von Neuronen.</p>
+                </div>
+                <div class="concept-box">
+                    <h4 class="text-lg font-semibold text-purple-600 mb-2" data-i18n="regDataAugTitle">Data Augmentation</h4>
+                    <p class="text-sm text-gray-700" data-i18n="regDataAugDesc">Künstliche Vergrößerung des Trainingsdatensatzes durch Anwenden von Transformationen auf die vorhandenen Daten (z.B. Rotationen, Spiegelungen, Farbverschiebungen bei Bildern), die die Klassenlabels nicht verändern.</p>
+                </div>
+                <div class="concept-box">
+                    <h4 class="text-lg font-semibold text-purple-600 mb-2" data-i18n="regEarlyStoppingTitle">Early Stopping</h4>
+                    <p class="text-sm text-gray-700" data-i18n="regEarlyStoppingDesc">Das Training wird beendet, sobald die Performance auf einem separaten Validierungsdatensatz stagniert oder schlechter wird, auch wenn der Trainings-Loss noch sinkt.</p>
+                </div>
+                <div class="concept-box">
+                    <h4 class="text-lg font-semibold text-purple-600 mb-2" data-i18n="regBatchNormTitle">Batch Normalization (BN)</h4>
+                    <p class="text-sm text-gray-700" data-i18n="regBatchNormDesc">Normalisiert die Aktivierungen innerhalb eines Mini-Batches, um Mittelwert 0 und Varianz 1 zu erreichen. Dies stabilisiert und beschleunigt das Training und hat oft auch einen regularisierenden Effekt. Hilft gegen "Internal Covariate Shift" und glättet die Loss-Landschaft.</p>
+                </div>
+                 <div class="concept-box">
+                    <h4 class="text-lg font-semibold text-purple-600 mb-2" data-i18n="regTransferLearningTitle">Transfer Learning</h4>
+                    <p class="text-sm text-gray-700" data-i18n="regTransferLearningDesc">Verwendung eines auf einer großen Datenmenge (z.B. ImageNet) vortrainierten Modells als Startpunkt für eine neue, oft kleinere Aufgabe. Die unteren Schichten (Feature-Extraktoren) werden oft beibehalten oder nur feinjustiert ("fine-tuning").</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="common-practices" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section6Title">6. Common Practices</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section6Intro">
+                Einige bewährte Vorgehensweisen und Tipps, die beim Entwickeln und Trainieren von Deep Learning Modellen hilfreich sein können.
+            </p>
+            <div class="grid md:grid-cols-2 gap-8">
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="cpTrainingStrategiesTitle">Trainingsstrategien</h3>
+                    <ul class="list-none space-y-1 text-sm">
+                        <li class="explanation-point" data-i18n="cpGradientCheck"><strong>Gradient Checks:</strong> Numerische Überprüfung der Backpropagation-Implementierung.</li>
+                        <li class="explanation-point" data-i18n="cpOverfitSmallBatch"><strong>Overfit a small batch:</strong> Stelle sicher, dass das Modell eine kleine Datenmenge perfekt lernen kann, bevor auf dem gesamten Datensatz trainiert wird.</li>
+                        <li class="explanation-point" data-i18n="cpMonitorLoss"><strong>Monitoring:</strong> Verfolge Trainings- und Validierungs-Loss, Genauigkeit und andere Metriken. Visualisiere Gewichte und Aktivierungen der ersten Schichten.</li>
+                    </ul>
+                </div>
+                 <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="cpHyperparamOptTitle">Hyperparameter-Optimierung</h3>
+                     <ul class="list-none space-y-1 text-sm">
+                        <li class="explanation-point" data-i18n="cpLearningRate"><strong>Lernrate:</strong> Einer der wichtigsten Hyperparameter. Beginne mit Werten wie 0.1, 0.01, 0.001. Verwende Lernraten-Decay.</li>
+                        <li class="explanation-point" data-i18n="cpRandomSearch"><strong>Random Search vs. Grid Search:</strong> Random Search ist oft effizienter als Grid Search, um gute Hyperparameter-Kombinationen zu finden.</li>
+                        <li class="explanation-point" data-i18n="cpStartSimple"><strong>Starte einfach:</strong> Beginne mit etablierten Architekturen (z.B. ResNet, VGG für Bilder) und Regularisierungstechniken.</li>
+                    </ul>
+                </div>
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="cpEvaluationTitle">Evaluierung</h3>
+                    <ul class="list-none space-y-1 text-sm">
+                        <li class="explanation-point" data-i18n="cpTestDataVault"><strong>Testdatensatz unter Verschluss:</strong> Verwende den Testdatensatz NUR für die finale Evaluierung, niemals für Training oder Hyperparameter-Tuning.</li>
+                        <li class="explanation-point" data-i18n="cpClassImbalanceMetrics"><strong>Metriken bei Klassenungleichgewicht:</strong> Genauigkeit (Accuracy) kann irreführend sein. Nutze Precision, Recall, F1-Score, ROC-AUC.</li>
+                        <li class="explanation-point" data-i18n="cpStatisticalSignificance"><strong>Statistische Signifikanz:</strong> Vergleiche Modelle nicht nur anhand einzelner Zahlen, sondern prüfe, ob Unterschiede statistisch signifikant sind (z.B. durch mehrmaliges Training mit unterschiedlichen Seeds).</li>
+                    </ul>
+                </div>
+                <div class="concept-box">
+                    <h3 class="text-xl font-semibold mb-3 text-purple-600" data-i18n="cpEnsemblingTitle">Ensembling</h3>
+                    <p class="text-sm text-gray-700" data-i18n="cpEnsemblingDesc">Kombiniere die Vorhersagen mehrerer unabhängiger Modelle (oder verschiedener Checkpoints desselben Modells), um die Gesamtperformance oft leicht zu verbessern. Dies reduziert die Varianz.</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="quiz" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="quizSectionTitle">Deep Learning Wissens-Quiz</h2>
+            <div id="quiz-area" class="quiz-container max-w-2xl mx-auto">
+                <div id="quiz-loading-message" class="text-center text-gray-600" data-i18n="quizJsonLoading">Lade Quizdaten...</div>
+                <div id="quiz-question-container" style="display:none;">
+                    <p class="quiz-question" id="question-text"></p>
+                    <div id="options-container"></div>
+                </div>
+                <div id="quiz-feedback-area" class="quiz-feedback" style="display: none;"></div>
+                <div id="quiz-navigation" class="quiz-navigation mt-6 flex justify-between items-center" style="display:none;">
+                    <span id="question-counter" class="text-sm text-gray-600"></span>
+                    <button id="next-question-btn" class="opacity-50 cursor-not-allowed" disabled data-i18n="quiz_nextButton">Nächste Frage</button>
+                </div>
+                <div id="quiz-results-area" class="mt-6" style="display: none;">
+                    <h3 class="text-2xl font-semibold text-center text-purple-600" data-i18n="quiz_finishedTitle">Quiz beendet!</h3>
+                    <p class="text-lg text-center mt-2"><span data-i18n="quiz_scorePrefix">Dein Ergebnis:</span> <span id="score-text" class="font-bold"></span></p>
+                    <div class="text-center mt-4">
+                        <button id="restart-quiz-btn" class="bg-green-500 hover:bg-green-600 text-white py-2 px-6 rounded-md font-semibold" data-i18n="quiz_restartButton">Quiz neu starten</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-purple-800 text-white text-center p-8 mt-16">
+        <p class="text-lg" data-i18n="footerText1">&copy; 2025 Deep Learning Infografik.</p>
+        <p class="text-sm" data-i18n="footerText2">Basierend auf Vorlesungsmaterialien der FAU und Standard-Deep-Learning-Konzepten.</p>
+    </footer>
+
+    <script>
+        // --- I18N Data ---
+        const translations = {
+            de: {
+                pageTitle: "Deep Learning Infografik - Detailliert mit Quiz",
+                headerTitle: "Deep Learning: Detaillierte Einblicke & Quiz",
+                headerSubtitle: "Konzepte, Architekturen und interaktives Quiz",
+                section1Title: "1. Einführung in Deep Learning",
+                section1Intro: "Deep Learning ist ein Teilbereich des maschinellen Lernens, der auf künstlichen neuronalen Netzen mit vielen Schichten (tiefen Architekturen) basiert. Es ermöglicht Computern, komplexe Muster und Hierarchien von Merkmalen aus großen Datenmengen zu lernen. Wichtige Buzzwords sind <strong>Künstliche Intelligenz (KI)</strong>, <strong>Maschinelles Lernen (ML)</strong> und <strong>Representation Learning</strong>, da Deep Learning oft automatisch relevante Merkmale aus Rohdaten extrahiert.",
+                motivationTitle: "Motivation und Durchbrüche",
+                motivationImagenet: "<strong>ImageNet Challenge:</strong> Der Sieg von AlexNet im Jahr 2012 zeigte die Überlegenheit von tiefen CNNs bei der Bilderkennung.",
+                motivationAlphago: "<strong>AlphaGo:</strong> Besiegte menschliche Meister im Go, was die Leistungsfähigkeit von Deep Reinforcement Learning demonstrierte.",
+                motivationDeepdream: "<strong>DeepDream:</strong> Visualisierungen, die zeigen, was neuronale Netze \"sehen\" oder gelernt haben.",
+                motivationYolo: "<strong>YOLO (You Only Look Once):</strong> Echtzeit-Objekterkennung mit beeindruckender Geschwindigkeit und Genauigkeit.",
+                applicationsTitle: "Anwendungsbeispiele",
+                appAutonomesFahren: "<strong>Autonomes Fahren:</strong> Objekterkennung, Fahrspurerkennung.",
+                appSmartDevices: "<strong>Smarte Geräte:</strong> Energieverbrauchsprognose.",
+                appMedizin: "<strong>Medizinische Bildanalyse:</strong> Tumordiagnostik, Organsegmentierung, Landmarkenerkennung.",
+                appSprachverarbeitung: "<strong>Sprachverarbeitung & Übersetzung:</strong> Siri, Google Translate.",
+                dlPipelineTitle: "Von der klassischen Bildverarbeitung zu Deep Learning",
+                dlPipelineDesc: "Die klassische Bildverarbeitungspipeline (Vorverarbeitung, Merkmalsextraktion, Klassifikation) wird im Deep Learning oft durch ein End-to-End-Modell ersetzt, das Merkmale und Klassifikator gemeinsam lernt (\"Representation Learning Engine\").",
+                section2Title: "2. Feed Forward Neuronale Netze (FFNNs)",
+                section2Intro: "Feed Forward Neuronale Netze, auch Multi-Layer Perceptrons (MLPs) genannt, sind die grundlegendste Form tiefer neuronaler Netze. Informationen fließen nur in eine Richtung – vom Input-Layer über optionale Hidden-Layer zum Output-Layer.",
+                perceptronTitle: "Das Perzeptron & XOR-Problem",
+                perceptronDesc: "Ein einzelnes Perzeptron kann nur linear separierbare Probleme lösen. Das XOR-Problem ist ein klassisches Beispiel für ein nicht linear separierbares Problem, das durch ein einzelnes Perzeptron nicht gelöst werden kann.",
+                mlpSolution: "MLPs mit mindestens einem Hidden-Layer und nichtlinearen Aktivierungsfunktionen können solche Probleme lösen.",
+                universalApproximationTitle: "Universal Approximation Theorem",
+                universalApproximationDesc: "Ein FFNN mit einer einzigen Hidden-Layer, die eine ausreichende Anzahl von Neuronen und eine nichtlineare Aktivierungsfunktion (z.B. Sigmoid) enthält, kann jede kontinuierliche Funktion auf einer kompakten Teilmenge von $\\mathbb{R}^n$ mit beliebiger Genauigkeit approximieren. Dies zeigt die theoretische Mächtigkeit von MLPs.",
+                softmaxTitle: "Softmax-Aktivierungsfunktion für Klassifikation",
+                softmaxDesc: "Die Softmax-Funktion wird typischerweise im Output-Layer für Multi-Klassen-Klassifikationsprobleme verwendet. Sie transformiert einen Vektor von reellen Zahlen (Logits) in eine Wahrscheinlichkeitsverteilung über die Klassen.",
+                softmaxProperties: "Eigenschaften: Alle Ausgabewerte liegen zwischen 0 und 1 und summieren sich zu 1.",
+                backpropTitle: "Optimierung: Gradient Descent & Backpropagation",
+                backpropDesc1: "Das Training von FFNNs erfolgt typischerweise durch Minimierung einer Loss-Funktion mittels Gradient Descent. Der Gradient der Loss-Funktion bezüglich der Gewichte wird effizient durch den Backpropagation-Algorithmus berechnet.",
+                backpropDesc2: "Backpropagation nutzt die Kettenregel der Differentialrechnung, um Fehler vom Output-Layer rückwärts durch das Netzwerk zu propagieren und die Gewichte anzupassen.",
+                vanishingGradientWarning: "Herausforderungen: Vanishing Gradients (Gradienten werden sehr klein) oder Exploding Gradients (Gradienten werden sehr groß) können das Training tiefer Netze erschweren.",
+                section3Title: "3. Loss-Funktionen und Optimierung",
+                section3Intro: "Loss-Funktionen quantifizieren, wie gut das Modell eine Aufgabe erfüllt. Optimierungsalgorithmen passen die Modellparameter (Gewichte) an, um diesen Loss zu minimieren.",
+                lossFunctionsTitle: "Typische Loss-Funktionen",
+                l2LossTitle: "L2-Loss (Mean Squared Error) für Regression:",
+                l2LossDesc: "Misst den durchschnittlichen quadratischen Unterschied zwischen Vorhersage und wahrem Wert.",
+                crossEntropyTitle: "Cross-Entropy Loss für Klassifikation:",
+                crossEntropyDesc: "Misst die \"Distanz\" zwischen der vorhergesagten Wahrscheinlichkeitsverteilung (oft nach Softmax) und der wahren (One-Hot-kodierten) Klassenverteilung.",
+                hingeLossTitle: "Hinge Loss (oft für SVMs):",
+                hingeLossDesc: "Bestraft Vorhersagen, die auf der falschen Seite der Entscheidungsgrenze liegen und keinen ausreichenden Margin haben.",
+                optimizersTitle: "Optimierungsalgorithmen",
+                optimizerSGD: "<strong>Stochastic Gradient Descent (SGD):</strong> Aktualisiert Gewichte basierend auf dem Gradienten eines einzelnen Beispiels oder eines Mini-Batches.",
+                optimizerMomentum: "<strong>Momentum:</strong> Beschleunigt SGD in relevanten Richtungen und dämpft Oszillationen.",
+                optimizerNesterov: "<strong>Nesterov Accelerated Gradient (NAG):</strong> Eine verbesserte Version von Momentum, die \"vorausschaut\".",
+                optimizerAdaptive: "<strong>Adaptive Lernraten-Methoden (AdaGrad, RMSProp, Adam):</strong> Passen die Lernrate für jeden Parameter individuell an, basierend auf vergangenen Gradienten. Adam ist oft eine gute Standardwahl.",
+                learningRateAnnealing: "<strong>Lernraten-Annealing (Decay):</strong> Die Lernrate wird im Laufe des Trainings schrittweise reduziert, um eine feinere Anpassung in der Nähe des Optimums zu ermöglichen.",
+                section4Title: "4. Aktivierungsfunktionen & Convolutional Neural Networks (CNNs)",
+                activationFunctionsTitle: "Aktivierungsfunktionen",
+                activationFunctionsDesc: "Aktivierungsfunktionen führen Nichtlinearität in das Modell ein, was es Netzen ermöglicht, komplexe Beziehungen zu lernen. Ohne sie wäre ein tiefes Netz nur eine Abfolge linearer Transformationen, was äquivalent zu einer einzigen linearen Transformation wäre.",
+                cnnsTitle: "Convolutional Neural Networks (CNNs)",
+                cnnsDesc: "CNNs sind speziell für die Verarbeitung von Daten mit gitterartiger Topologie (z.B. Bilder) konzipiert. Sie nutzen drei Kernideen: lokale rezeptive Felder, geteilte Gewichte (Shared Weights) und Pooling.",
+                convLayersTitle: "Convolutional Layers",
+                convLayersDesc: "Wenden lernbare Filter (Kernels) auf die Eingabedaten an. Jeder Filter ist klein, deckt aber die gesamte Tiefe des Inputs ab und erzeugt eine Feature Map. Durch geteilte Gewichte (der gleiche Filter wird über das gesamte Bild geschoben) wird die Anzahl der Parameter drastisch reduziert und Translationsinvarianz gefördert.",
+                convPadding: "<strong>Padding:</strong> Erhält die räumliche Größe der Feature Maps.",
+                convStride: "<strong>Stride:</strong> Schrittweite des Filters, kann zur Verkleinerung der Dimensionen verwendet werden.",
+                convDilated: "<strong>Dilated/Atrous Convolution:</strong> Vergrößert das rezeptive Feld ohne zusätzliche Parameter.",
+                conv1x1: "<strong>1x1 Convolutions (Network in Network):</strong> Nützlich für Dimensionsreduktion/-expansion über Kanäle und zur Einführung von Nichtlinearität ohne räumliche Filterung.",
+                poolingLayersTitle: "Pooling Layers",
+                poolingLayersDesc: "Reduzieren die räumliche Größe der Feature Maps, was die Anzahl der Parameter und Berechnungen weiter verringert und eine gewisse Invarianz gegenüber kleinen Verschiebungen schafft.",
+                poolingMax: "<strong>Max Pooling:</strong> Wählt den maximalen Wert aus einer Region.",
+                poolingAvg: "<strong>Average Pooling:</strong> Berechnet den Durchschnittswert einer Region.",
+                poolingStrideAlt: "Strided Convolutions werden manchmal als Alternative zum Pooling verwendet.",
+                cnnArchDesc: "Typische CNN-Architekturen bestehen aus einer Abfolge von Convolutional Layers (mit Aktivierungsfunktionen) und Pooling Layers, gefolgt von einem oder mehreren Fully Connected Layers (oder globalem Pooling und 1x1 Convolutions) für die Klassifikation.",
+                section5Title: "5. Regularisierung",
+                section5Intro: "Regularisierungstechniken werden eingesetzt, um Overfitting zu verhindern. Overfitting tritt auf, wenn ein Modell die Trainingsdaten zu gut lernt (inklusive Rauschen) und dadurch schlecht auf neuen, ungesehenen Daten generalisiert. Ziel ist es, die Komplexität des Modells zu kontrollieren und die Generalisierungsfähigkeit zu verbessern.",
+                regL1L2Title: "L1- und L2-Regularisierung",
+                regL1L2Desc: "Fügen einen Strafterm zur Loss-Funktion hinzu, der von der Größe der Gewichte abhängt. L2 (\"Weight Decay\") bestraft große Gewichte und führt zu kleineren, diffuseren Gewichten. L1 fördert Sparsity (viele Gewichte werden null).",
+                regDropoutTitle: "Dropout",
+                regDropoutDesc: "Während des Trainings werden zufällig Neuronen (und ihre Verbindungen) mit einer bestimmten Wahrscheinlichkeit \"ausgeschaltet\". Dies zwingt das Netzwerk, redundante Repräsentationen zu lernen und verhindert Co-Adaptation von Neuronen.",
+                regDataAugTitle: "Data Augmentation",
+                regDataAugDesc: "Künstliche Vergrößerung des Trainingsdatensatzes durch Anwenden von Transformationen auf die vorhandenen Daten (z.B. Rotationen, Spiegelungen, Farbverschiebungen bei Bildern), die die Klassenlabels nicht verändern.",
+                regEarlyStoppingTitle: "Early Stopping",
+                regEarlyStoppingDesc: "Das Training wird beendet, sobald die Performance auf einem separaten Validierungsdatensatz stagniert oder schlechter wird, auch wenn der Trainings-Loss noch sinkt.",
+                regBatchNormTitle: "Batch Normalization (BN)",
+                regBatchNormDesc: "Normalisiert die Aktivierungen innerhalb eines Mini-Batches, um Mittelwert 0 und Varianz 1 zu erreichen. Dies stabilisiert und beschleunigt das Training und hat oft auch einen regularisierenden Effekt. Hilft gegen \"Internal Covariate Shift\" und glättet die Loss-Landschaft.",
+                regTransferLearningTitle: "Transfer Learning",
+                regTransferLearningDesc: "Verwendung eines auf einer großen Datenmenge (z.B. ImageNet) vortrainierten Modells als Startpunkt für eine neue, oft kleinere Aufgabe. Die unteren Schichten (Feature-Extraktoren) werden oft beibehalten oder nur feinjustiert (\"fine-tuning\").",
+                section6Title: "6. Common Practices",
+                section6Intro: "Einige bewährte Vorgehensweisen und Tipps, die beim Entwickeln und Trainieren von Deep Learning Modellen hilfreich sein können.",
+                cpTrainingStrategiesTitle: "Trainingsstrategien",
+                cpGradientCheck: "<strong>Gradient Checks:</strong> Numerische Überprüfung der Backpropagation-Implementierung.",
+                cpOverfitSmallBatch: "<strong>Overfit a small batch:</strong> Stelle sicher, dass das Modell eine kleine Datenmenge perfekt lernen kann, bevor auf dem gesamten Datensatz trainiert wird.",
+                cpMonitorLoss: "<strong>Monitoring:</strong> Verfolge Trainings- und Validierungs-Loss, Genauigkeit und andere Metriken. Visualisiere Gewichte und Aktivierungen der ersten Schichten.",
+                cpHyperparamOptTitle: "Hyperparameter-Optimierung",
+                cpLearningRate: "<strong>Lernrate:</strong> Einer der wichtigsten Hyperparameter. Beginne mit Werten wie 0.1, 0.01, 0.001. Verwende Lernraten-Decay.",
+                cpRandomSearch: "<strong>Random Search vs. Grid Search:</strong> Random Search ist oft effizienter als Grid Search, um gute Hyperparameter-Kombinationen zu finden.",
+                cpStartSimple: "<strong>Starte einfach:</strong> Beginne mit etablierten Architekturen (z.B. ResNet, VGG für Bilder) und Regularisierungstechniken.",
+                cpEvaluationTitle: "Evaluierung",
+                cpTestDataVault: "<strong>Testdatensatz unter Verschluss:</strong> Verwende den Testdatensatz NUR für die finale Evaluierung, niemals für Training oder Hyperparameter-Tuning.",
+                cpClassImbalanceMetrics: "<strong>Metriken bei Klassenungleichgewicht:</strong> Genauigkeit (Accuracy) kann irreführend sein. Nutze Precision, Recall, F1-Score, ROC-AUC.",
+                cpStatisticalSignificance: "<strong>Statistische Signifikanz:</strong> Vergleiche Modelle nicht nur anhand einzelner Zahlen, sondern prüfe, ob Unterschiede statistisch signifikant sind (z.B. durch mehrmaliges Training mit unterschiedlichen Seeds).",
+                cpEnsemblingTitle: "Ensembling",
+                cpEnsemblingDesc: "Kombiniere die Vorhersagen mehrerer unabhängiger Modelle (oder verschiedener Checkpoints desselben Modells), um die Gesamtperformance oft leicht zu verbessern. Dies reduziert die Varianz.",
+                quizSectionTitle: "Deep Learning Wissens-Quiz",
+                quizJsonLoading: "Lade Quizdaten...",
+                quizLoading: "Frage wird geladen...",
+                quiz_nextButton: "Nächste Frage",
+                quiz_resultsButton: "Ergebnisse anzeigen",
+                quiz_finishedTitle: "Quiz beendet!",
+                quiz_scorePrefix: "Dein Ergebnis: ",
+                quiz_scoreSuffix_singular: "Punkt",
+                quiz_scoreSuffix_plural: "Punkte",
+                quiz_scoreOutOf: "von",
+                quiz_restartButton: "Quiz neu starten",
+                quiz_feedbackCorrect: "Richtig!",
+                quiz_feedbackIncorrectPrefix: "Falsch. Die richtige Antwort war: ",
+                quiz_questionCounterPrefix: "Frage ",
+                quiz_questionCounterOf: "von",
+                footerText1: "&copy; 2025 Deep Learning Infografik.",
+                footerText2: "Basierend auf Vorlesungsmaterialien der FAU und Standard-Deep-Learning-Konzepten."
+            },
+            en: {
+                pageTitle: "Deep Learning Infographic - Detailed with Quiz",
+                headerTitle: "Deep Learning: Detailed Insights & Quiz",
+                headerSubtitle: "Concepts, Architectures, and Interactive Quiz",
+                section1Title: "1. Introduction to Deep Learning",
+                section1Intro: "Deep Learning is a subfield of machine learning based on artificial neural networks with many layers (deep architectures). It enables computers to learn complex patterns and hierarchies of features from large amounts of data. Key buzzwords include <strong>Artificial Intelligence (AI)</strong>, <strong>Machine Learning (ML)</strong>, and <strong>Representation Learning</strong>, as Deep Learning often automatically extracts relevant features from raw data.",
+                motivationTitle: "Motivation and Breakthroughs",
+                motivationImagenet: "<strong>ImageNet Challenge:</strong> The victory of AlexNet in 2012 demonstrated the superiority of deep CNNs in image recognition.",
+                motivationAlphago: "<strong>AlphaGo:</strong> Defeated human masters in Go, showcasing the power of Deep Reinforcement Learning.",
+                motivationDeepdream: "<strong>DeepDream:</strong> Visualizations showing what neural networks \"see\" or have learned.",
+                motivationYolo: "<strong>YOLO (You Only Look Once):</strong> Real-time object detection with impressive speed and accuracy.",
+                applicationsTitle: "Application Examples",
+                appAutonomesFahren: "<strong>Autonomous Driving:</strong> Object detection, lane detection.",
+                appSmartDevices: "<strong>Smart Devices:</strong> Energy consumption forecasting.",
+                appMedizin: "<strong>Medical Image Analysis:</strong> Tumor diagnostics, organ segmentation, landmark detection.",
+                appSprachverarbeitung: "<strong>Natural Language Processing & Translation:</strong> Siri, Google Translate.",
+                dlPipelineTitle: "From Classical Image Processing to Deep Learning",
+                dlPipelineDesc: "The classical image processing pipeline (preprocessing, feature extraction, classification) is often replaced in Deep Learning by an end-to-end model that learns features and classifier jointly (\"Representation Learning Engine\").",
+                section2Title: "2. Feed Forward Neural Networks (FFNNs)",
+                section2Intro: "Feed Forward Neural Networks, also known as Multi-Layer Perceptrons (MLPs), are the most basic form of deep neural networks. Information flows in only one direction—from the input layer through optional hidden layers to the output layer.",
+                perceptronTitle: "The Perceptron & XOR Problem",
+                perceptronDesc: "A single perceptron can only solve linearly separable problems. The XOR problem is a classic example of a non-linearly separable problem that cannot be solved by a single perceptron.",
+                mlpSolution: "MLPs with at least one hidden layer and non-linear activation functions can solve such problems.",
+                universalApproximationTitle: "Universal Approximation Theorem",
+                universalApproximationDesc: "An FFNN with a single hidden layer containing a sufficient number of neurons and a non-linear activation function (e.g., sigmoid) can approximate any continuous function on a compact subset of $\\mathbb{R}^n$ to any desired degree of accuracy. This demonstrates the theoretical power of MLPs.",
+                softmaxTitle: "Softmax Activation Function for Classification",
+                softmaxDesc: "The softmax function is typically used in the output layer for multi-class classification problems. It transforms a vector of real numbers (logits) into a probability distribution over the classes.",
+                softmaxProperties: "Properties: All output values are between 0 and 1 and sum to 1.",
+                backpropTitle: "Optimization: Gradient Descent & Backpropagation",
+                backpropDesc1: "Training FFNNs is typically done by minimizing a loss function using Gradient Descent. The gradient of the loss function with respect to the weights is efficiently computed by the Backpropagation algorithm.",
+                backpropDesc2: "Backpropagation uses the chain rule of calculus to propagate errors backward from the output layer through the network and adjust the weights.",
+                vanishingGradientWarning: "Challenges: Vanishing gradients (gradients become very small) or Exploding gradients (gradients become very large) can make training deep networks difficult.",
+                section3Title: "3. Loss Functions and Optimization",
+                section3Intro: "Loss functions quantify how well the model performs a task. Optimization algorithms adjust the model parameters (weights) to minimize this loss.",
+                lossFunctionsTitle: "Typical Loss Functions",
+                l2LossTitle: "L2 Loss (Mean Squared Error) for Regression:",
+                l2LossDesc: "Measures the average squared difference between prediction and true value.",
+                crossEntropyTitle: "Cross-Entropy Loss for Classification:",
+                crossEntropyDesc: "Measures the \"distance\" between the predicted probability distribution (often after softmax) and the true (one-hot encoded) class distribution.",
+                hingeLossTitle: "Hinge Loss (often for SVMs):",
+                hingeLossDesc: "Penalizes predictions that are on the wrong side of the decision boundary and do not have a sufficient margin.",
+                optimizersTitle: "Optimization Algorithms",
+                optimizerSGD: "<strong>Stochastic Gradient Descent (SGD):</strong> Updates weights based on the gradient of a single example or a mini-batch.",
+                optimizerMomentum: "<strong>Momentum:</strong> Accelerates SGD in relevant directions and dampens oscillations.",
+                optimizerNesterov: "<strong>Nesterov Accelerated Gradient (NAG):</strong> An improved version of momentum that \"looks ahead\".",
+                optimizerAdaptive: "<strong>Adaptive Learning Rate Methods (AdaGrad, RMSProp, Adam):</strong> Adjust the learning rate for each parameter individually, based on past gradients. Adam is often a good default choice.",
+                learningRateAnnealing: "<strong>Learning Rate Annealing (Decay):</strong> The learning rate is gradually reduced during training to allow for finer adjustments near the optimum.",
+                section4Title: "4. Activation Functions & Convolutional Neural Networks (CNNs)",
+                activationFunctionsTitle: "Activation Functions",
+                activationFunctionsDesc: "Activation functions introduce non-linearity into the model, enabling networks to learn complex relationships. Without them, a deep network would be just a sequence of linear transformations, equivalent to a single linear transformation.",
+                cnnsTitle: "Convolutional Neural Networks (CNNs)",
+                cnnsDesc: "CNNs are specifically designed for processing data with a grid-like topology (e.g., images). They leverage three core ideas: local receptive fields, shared weights, and pooling.",
+                convLayersTitle: "Convolutional Layers",
+                convLayersDesc: "Apply learnable filters (kernels) to the input data. Each filter is small but covers the entire depth of the input and produces a feature map. Shared weights (the same filter is slid across the entire image) drastically reduce the number of parameters and promote translation invariance.",
+                convPadding: "<strong>Padding:</strong> Preserves the spatial size of feature maps.",
+                convStride: "<strong>Stride:</strong> Step size of the filter, can be used for downsampling.",
+                convDilated: "<strong>Dilated/Atrous Convolution:</strong> Increases the receptive field without additional parameters.",
+                conv1x1: "<strong>1x1 Convolutions (Network in Network):</strong> Useful for dimensionality reduction/expansion across channels and for introducing non-linearity without spatial filtering.",
+                poolingLayersTitle: "Pooling Layers",
+                poolingLayersDesc: "Reduce the spatial size of feature maps, further decreasing the number of parameters and computations, and providing some invariance to small translations.",
+                poolingMax: "<strong>Max Pooling:</strong> Selects the maximum value from a region.",
+                poolingAvg: "<strong>Average Pooling:</strong> Computes the average value of a region.",
+                poolingStrideAlt: "Strided convolutions are sometimes used as an alternative to pooling.",
+                cnnArchDesc: "Typical CNN architectures consist of a sequence of Convolutional Layers (with activation functions) and Pooling Layers, followed by one or more Fully Connected Layers (or global pooling and 1x1 convolutions) for classification.",
+                section5Title: "5. Regularization",
+                section5Intro: "Regularization techniques are used to prevent overfitting. Overfitting occurs when a model learns the training data too well (including noise) and thus generalizes poorly to new, unseen data. The goal is to control model complexity and improve generalization ability.",
+                regL1L2Title: "L1 and L2 Regularization",
+                regL1L2Desc: "Add a penalty term to the loss function that depends on the magnitude of the weights. L2 (\"Weight Decay\") penalizes large weights, leading to smaller, more diffuse weights. L1 promotes sparsity (many weights become zero).",
+                regDropoutTitle: "Dropout",
+                regDropoutDesc: "During training, randomly \"turn off\" neurons (and their connections) with a certain probability. This forces the network to learn redundant representations and prevents co-adaptation of neurons.",
+                regDataAugTitle: "Data Augmentation",
+                regDataAugDesc: "Artificially enlarge the training dataset by applying transformations to existing data (e.g., rotations, flips, color shifts for images) that do not change the class labels.",
+                regEarlyStoppingTitle: "Early Stopping",
+                regEarlyStoppingDesc: "Training is stopped as soon as performance on a separate validation dataset stagnates or starts to degrade, even if the training loss is still decreasing.",
+                regBatchNormTitle: "Batch Normalization (BN)",
+                regBatchNormDesc: "Normalizes activations within a mini-batch to have zero mean and unit variance. This stabilizes and accelerates training and often has a regularizing effect. Helps against \"Internal Covariate Shift\" and smooths the loss landscape.",
+                regTransferLearningTitle: "Transfer Learning",
+                regTransferLearningDesc: "Using a model pre-trained on a large dataset (e.g., ImageNet) as a starting point for a new, often smaller, task. The lower layers (feature extractors) are often kept fixed or only fine-tuned.",
+                section6Title: "6. Common Practices",
+                section6Intro: "Some best practices and tips that can be helpful when developing and training Deep Learning models.",
+                cpTrainingStrategiesTitle: "Training Strategies",
+                cpGradientCheck: "<strong>Gradient Checks:</strong> Numerically verify the backpropagation implementation.",
+                cpOverfitSmallBatch: "<strong>Overfit a small batch:</strong> Ensure the model can perfectly learn a small amount of data before training on the full dataset.",
+                cpMonitorLoss: "<strong>Monitoring:</strong> Track training and validation loss, accuracy, and other metrics. Visualize weights and activations of the first layers.",
+                cpHyperparamOptTitle: "Hyperparameter Optimization",
+                cpLearningRate: "<strong>Learning Rate:</strong> One of the most important hyperparameters. Start with values like 0.1, 0.01, 0.001. Use learning rate decay.",
+                cpRandomSearch: "<strong>Random Search vs. Grid Search:</strong> Random search is often more efficient than grid search for finding good hyperparameter combinations.",
+                cpStartSimple: "<strong>Start simple:</strong> Begin with established architectures (e.g., ResNet, VGG for images) and regularization techniques.",
+                cpEvaluationTitle: "Evaluation",
+                cpTestDataVault: "<strong>Test set in a vault:</strong> Use the test set ONLY for final evaluation, never for training or hyperparameter tuning.",
+                cpClassImbalanceMetrics: "<strong>Metrics for class imbalance:</strong> Accuracy can be misleading. Use Precision, Recall, F1-score, ROC-AUC.",
+                cpStatisticalSignificance: "<strong>Statistical Significance:</strong> Don't just compare models based on single numbers; check if differences are statistically significant (e.g., by training multiple times with different seeds).",
+                cpEnsemblingTitle: "Ensembling",
+                cpEnsemblingDesc: "Combine predictions from multiple independent models (or different checkpoints of the same model) to often slightly improve overall performance. This reduces variance.",
+                quizSectionTitle: "Deep Learning Knowledge Quiz",
+                quizJsonLoading: "Loading quiz data...",
+                quizLoading: "Loading question...",
+                quiz_nextButton: "Next Question",
+                quiz_resultsButton: "Show Results",
+                quiz_finishedTitle: "Quiz Finished!",
+                quiz_scorePrefix: "Your score: ",
+                quiz_scoreSuffix_singular: "point",
+                quiz_scoreSuffix_plural: "points",
+                quiz_scoreOutOf: "out of",
+                quiz_restartButton: "Restart Quiz",
+                quiz_feedbackCorrect: "Correct!",
+                quiz_feedbackIncorrectPrefix: "Incorrect. The correct answer was: ",
+                quiz_questionCounterPrefix: "Question ",
+                quiz_questionCounterOf: "of",
+                footerText1: "&copy; 2025 Deep Learning Infographic.",
+                footerText2: "Based on FAU lecture materials and standard Deep Learning concepts."
+            }
+        };
+
+        let quizDataStore = {}; // Store for loaded quiz data by language
+        let currentLanguage = 'de'; // Default language
+        let activeQuizQuestions = []; // Currently active (sampled) quiz questions
+        let currentQuizData = []; // Full quiz data for the current language
+        
+        // --- I18N Functions ---
+        async function loadQuizDataForLang(lang) {
+            const quizLoadingMessageEl = document.getElementById('quiz-loading-message');
+            const quizQuestionContainerEl = document.getElementById('quiz-question-container');
+            const quizNavigationEl = document.getElementById('quiz-navigation');
+
+            quizLoadingMessageEl.style.display = 'block';
+            quizQuestionContainerEl.style.display = 'none';
+            quizNavigationEl.style.display = 'none';
+            
+            try {
+                // Use a placeholder name for Deep Learning quiz data
+                const response = await fetch(`quiz_data_dl_${lang}.json`);
+                if (!response.ok) {
+                     // Fallback to a generic error if specific file not found, or use a default if appropriate
+                    console.warn(`Quiz data file quiz_data_dl_${lang}.json not found. Trying to load default quiz_data_${lang}.json as fallback.`);
+                    const fallbackResponse = await fetch(`quiz_data_${lang}.json`);
+                     if (!fallbackResponse.ok) {
+                        throw new Error(`HTTP error! status: ${fallbackResponse.status} for quiz_data_dl_${lang}.json and fallback quiz_data_${lang}.json`);
+                     }
+                     const data = await fallbackResponse.json();
+                     quizDataStore[lang] = data; 
+                     currentQuizData = data;
+                } else {
+                    const data = await response.json();
+                    quizDataStore[lang] = data; 
+                    currentQuizData = data;
+                }
+                
+                quizLoadingMessageEl.style.display = 'none';
+                quizQuestionContainerEl.style.display = 'block';
+                quizNavigationEl.style.display = 'flex'; // Show navigation
+                return true;
+            } catch (error) {
+                console.error('Failed to load quiz data for language:', lang, error);
+                quizLoadingMessageEl.innerHTML = (translations[lang]?.quizJsonLoading || "Error loading quiz data.").replace("Lade", "Fehler beim Laden der") + ` (quiz_data_dl_${lang}.json).`;
+                quizQuestionContainerEl.style.display = 'none';
+                quizNavigationEl.style.display = 'none';
+                currentQuizData = []; 
+                activeQuizQuestions = [];
+                return false;
+            }
+        }
+        
+        function shuffleArray(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+
+        function initializeQuizSession() {
+            if (!currentQuizData || currentQuizData.length === 0) {
+                displayQuizError(translations[currentLanguage].quizJsonLoading.replace("Lade", "Keine Quizfragen verfügbar für") + ` ${currentLanguage}.`);
+                activeQuizQuestions = [];
+                return;
+            }
+
+            let shuffledQuestions = [...currentQuizData];
+            shuffleArray(shuffledQuestions);
+            // Limit to MAX_QUIZ_QUESTIONS or fewer if not enough questions are available
+            activeQuizQuestions = shuffledQuestions.slice(0, Math.min(MAX_QUIZ_QUESTIONS, shuffledQuestions.length)); 
+            
+            currentQuestionIndex = 0;
+            score = 0;
+
+            if (activeQuizQuestions.length > 0) {
+                loadQuestion();
+            } else {
+                 displayQuizError(translations[currentLanguage].quizJsonLoading.replace("Lade", "Keine Quizfragen verfügbar in") + ` quiz_data_dl_${currentLanguage}.json`);
+            }
+        }
+
+        async function setLanguage(lang) {
+            const previousLang = currentLanguage;
+            currentLanguage = lang;
+            document.documentElement.lang = lang;
+
+            let quizDataLoadedSuccessfully = true;
+            if (!quizDataStore[lang]) {
+                quizDataLoadedSuccessfully = await loadQuizDataForLang(lang);
+            } else {
+                 currentQuizData = quizDataStore[lang];
+            }
+
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (translations[lang] && translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                } else if (translations['de'] && translations['de'][key]) { // Fallback to German if key not in EN
+                    el.innerHTML = translations['de'][key];
+                }
+            });
+            
+            document.title = translations[lang]?.pageTitle || translations['de']?.pageTitle || "Deep Learning Infographic";
+
+            document.getElementById('lang-de-btn').classList.toggle('active', lang === 'de');
+            document.getElementById('lang-en-btn').classList.toggle('active', lang === 'en');
+            
+            const quizAreaVisible = document.getElementById('quiz-area') && document.getElementById('quiz-area').style.display !== 'none';
+            const resultsAreaVisible = quizResultsAreaEl && quizResultsAreaEl.style.display !== 'none';
+
+            if (quizDataLoadedSuccessfully) {
+                if (quizAreaVisible && !resultsAreaVisible) { 
+                    initializeQuizSession(); 
+                } else if (resultsAreaVisible) { 
+                    showResults(); 
+                }
+            } else if (lang !== previousLang) { 
+                 displayQuizError(translations[lang].quizJsonLoading.replace("Lade", "Fehler beim Laden der") + ` quiz_data_dl_${lang}.json. Versuche ${previousLang}...`);
+                 await loadQuizDataForLang(previousLang); 
+                 initializeQuizSession();
+            }
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise().catch(err => console.error("MathJax typesetting error on lang change:", err));
+            }
+        }
+
+        document.getElementById('lang-de-btn').addEventListener('click', () => setLanguage('de'));
+        document.getElementById('lang-en-btn').addEventListener('click', () => setLanguage('en'));
+
+        // --- Quiz Logic (adapted from original, simplified for now) ---
+        const questionTextEl = document.getElementById('question-text');
+        const optionsContainerEl = document.getElementById('options-container');
+        const feedbackAreaEl = document.getElementById('quiz-feedback-area');
+        const nextQuestionBtn = document.getElementById('next-question-btn');
+        const quizResultsAreaEl = document.getElementById('quiz-results-area');
+        const scoreTextEl = document.getElementById('score-text');
+        const restartQuizBtn = document.getElementById('restart-quiz-btn');
+        const questionCounterEl = document.getElementById('question-counter');
+        const quizQuestionContainerEl = document.getElementById('quiz-question-container');
+        const quizLoadingMessageEl = document.getElementById('quiz-loading-message');
+        const quizNavigationEl = document.getElementById('quiz-navigation');
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+        let selectedOptionElement = null;
+        let answerSubmitted = false;
+        const MAX_QUIZ_QUESTIONS = 5; // Reduced for this example
+
+        function displayQuizError(message) {
+            quizLoadingMessageEl.innerHTML = message;
+            quizLoadingMessageEl.style.display = 'block';
+            quizQuestionContainerEl.style.display = 'none';
+            quizNavigationEl.style.display = 'none';
+        }
+
+        function loadQuestion() {
+            if (!activeQuizQuestions || activeQuizQuestions.length === 0) {
+                // Try to use a generic message if specific translations are missing
+                const errorMsg = translations[currentLanguage]?.quizJsonLoading?.replace("Lade", "Keine Quizfragen verfügbar für") || "No quiz questions available for";
+                displayQuizError(`${errorMsg} ${currentLanguage}.`);
+                return;
+            }
+            if (currentQuestionIndex >= activeQuizQuestions.length) { 
+                showResults();
+                return;
+            }
+
+            quizLoadingMessageEl.style.display = 'none';
+            quizQuestionContainerEl.style.display = 'block';
+            quizNavigationEl.style.display = 'flex';
+
+            answerSubmitted = false;
+            selectedOptionElement = null;
+            const currentQuestionData = activeQuizQuestions[currentQuestionIndex];
+            questionTextEl.innerHTML = currentQuestionData.question; 
+            
+            optionsContainerEl.innerHTML = '';
+            
+            let questionOptions = currentQuestionData.options.map((optionText, index) => ({
+                text: optionText,
+                originalIndex: index 
+            }));
+
+            shuffleArray(questionOptions); // Shuffle options for variety
+
+            questionOptions.forEach((optionObj) => {
+                const optionEl = document.createElement('button');
+                optionEl.classList.add('quiz-option');
+                optionEl.innerHTML = optionObj.text; 
+                optionEl.dataset.originalIndex = optionObj.originalIndex; 
+                optionEl.addEventListener('click', selectOption);
+                optionsContainerEl.appendChild(optionEl);
+            });
+
+            feedbackAreaEl.style.display = 'none';
+            nextQuestionBtn.disabled = true;
+            nextQuestionBtn.classList.add('opacity-50', 'cursor-not-allowed');
+            nextQuestionBtn.classList.remove('opacity-100');
+            questionCounterEl.textContent = `${translations[currentLanguage].quiz_questionCounterPrefix} ${currentQuestionIndex + 1} ${translations[currentLanguage].quiz_questionCounterOf} ${activeQuizQuestions.length}`;
+            nextQuestionBtn.textContent = translations[currentLanguage].quiz_nextButton;
+
+            if (window.MathJax && window.MathJax.typesetPromise) {
+                window.MathJax.typesetPromise([questionTextEl, optionsContainerEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
+            }
+        }
+
+        function selectOption(event) {
+            if (answerSubmitted) return;
+
+            const currentlySelected = optionsContainerEl.querySelector('.quiz-option.selected');
+            if (currentlySelected) {
+                currentlySelected.classList.remove('selected');
+            }
+
+            selectedOptionElement = event.target.closest('.quiz-option');
+            selectedOptionElement.classList.add('selected');
+            
+            submitAnswer(); 
+        }
+
+        function submitAnswer() {
+            if (!selectedOptionElement || answerSubmitted) return;
+            answerSubmitted = true;
+
+            const selectedOriginalIndex = parseInt(selectedOptionElement.dataset.originalIndex);
+            const correctAnswerOriginalIndex = activeQuizQuestions[currentQuestionIndex].answer;
+
+            // Disable all options and remove 'selected' from non-chosen ones
+            optionsContainerEl.childNodes.forEach(buttonEl => {
+                buttonEl.disabled = true; 
+                if (buttonEl !== selectedOptionElement) { // Keep selected style on the one clicked
+                   buttonEl.classList.remove('selected');
+                }
+                 // Highlight correct answer if the chosen one was wrong
+                if (parseInt(buttonEl.dataset.originalIndex) === correctAnswerOriginalIndex && selectedOriginalIndex !== correctAnswerOriginalIndex) {
+                     buttonEl.classList.add('correct');
+                }
+            });
+
+            if (selectedOriginalIndex === correctAnswerOriginalIndex) {
+                score++;
+                feedbackAreaEl.textContent = translations[currentLanguage].quiz_feedbackCorrect;
+                feedbackAreaEl.className = 'quiz-feedback feedback-correct';
+                selectedOptionElement.classList.add('correct'); // Already has 'selected', add 'correct'
+            } else {
+                const correctOptionText = activeQuizQuestions[currentQuestionIndex].options[correctAnswerOriginalIndex];
+                feedbackAreaEl.innerHTML = `${translations[currentLanguage].quiz_feedbackIncorrectPrefix} "${correctOptionText}"`;
+                feedbackAreaEl.className = 'quiz-feedback feedback-incorrect';
+                selectedOptionElement.classList.add('incorrect'); // Add 'incorrect' to the selected one
+            }
+            feedbackAreaEl.style.display = 'block';
+            if (window.MathJax && window.MathJax.typesetPromise) { 
+                 window.MathJax.typesetPromise([feedbackAreaEl]).catch(function (err) { console.error('MathJax typesetting error:', err); });
+            }
+
+            nextQuestionBtn.disabled = false;
+            nextQuestionBtn.classList.remove('opacity-50', 'cursor-not-allowed');
+            nextQuestionBtn.classList.add('opacity-100');
+
+            if (currentQuestionIndex === activeQuizQuestions.length - 1) {
+                nextQuestionBtn.textContent = translations[currentLanguage].quiz_resultsButton;
+            }
+        }
+
+        nextQuestionBtn.addEventListener('click', () => {
+            currentQuestionIndex++;
+            if (currentQuestionIndex < activeQuizQuestions.length) {
+                loadQuestion();
+            } else {
+                showResults();
+            }
+        });
+
+        restartQuizBtn.addEventListener('click', () => {
+            initializeQuizSession(); 
+            quizResultsAreaEl.style.display = 'none';
+        });
+
+        function showResults() {
+            quizQuestionContainerEl.style.display = 'none';
+            feedbackAreaEl.style.display = 'none';
+            quizNavigationEl.style.display = 'none'; 
+            quizResultsAreaEl.style.display = 'block';
+            
+            const scoreSuffix = score === 1 ? translations[currentLanguage].quiz_scoreSuffix_singular : translations[currentLanguage].quiz_scoreSuffix_plural;
+            if (activeQuizQuestions && activeQuizQuestions.length > 0) {
+                scoreTextEl.textContent = `${score} ${translations[currentLanguage].quiz_scoreOutOf} ${activeQuizQuestions.length} (${((score / activeQuizQuestions.length) * 100).toFixed(0)}%)`;
+            } else {
+                scoreTextEl.textContent = "N/A"; // Or some error/default message
+            }
+        }
+
+        // Initial load
+        document.addEventListener('DOMContentLoaded', () => {
+            setLanguage(currentLanguage); 
+        });
+    </script>
+</body>
+</html>
