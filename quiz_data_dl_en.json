@@ -1,0 +1,522 @@
+[
+  {
+    "id": "dl_s0_q1",
+    "type": "multiple-choice",
+    "question": "What is a key feature of Deep Learning compared to traditional Machine Learning?",
+    "options": [
+      "It exclusively uses linear models.",
+      "It always requires explicitly defined features (Feature Engineering).",
+      "It uses deep neural networks with many layers to automatically learn hierarchical features.",
+      "It is only suitable for unsupervised learning."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "dl_s0_q2",
+    "type": "yes-no",
+    "question": "Was AlexNet a crucial breakthrough in the ImageNet Challenge, demonstrating the capabilities of deep Convolutional Neural Networks (CNNs)?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s0_q3",
+    "type": "multiple-choice",
+    "question": "What technology is behind AlphaGo's success in defeating human masters in the game of Go?",
+    "options": [
+      "Exclusively rule-based systems.",
+      "Support Vector Machines.",
+      "Deep Reinforcement Learning.",
+      "Decision Trees."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "dl_s0_q4",
+    "type": "multiple-choice",
+    "question": "What does YOLO stand for in the context of Deep Learning?",
+    "options": [
+      "You Only Learn Once – a principle for Transfer Learning.",
+      "You Only Look Once – an algorithm for real-time object detection.",
+      "Yielding Optimal Learning Outcomes – an optimization strategy.",
+      "Your Own Learning Optimizer – a customizable learning algorithm."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s0_q5",
+    "type": "yes-no",
+    "question": "Can a single perceptron solve the XOR problem?",
+    "options": ["No", "Yes"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s0_q6",
+    "type": "multiple-choice",
+    "question": "What does the Universal Approximation Theorem state about Feed Forward Neural Networks (FFNNs)?",
+    "options": [
+      "Every FFNN can perfectly approximate any function.",
+      "An FFNN with one hidden layer and a non-linear activation function can approximate any continuous function.",
+      "Only FFNNs with at least three hidden layers are universal approximators.",
+      "The theorem only applies to linear activation functions."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s0_q7",
+    "type": "multiple-choice",
+    "question": "Which function is typically used in the output layer of a neural network for multi-class classification to obtain probabilities?",
+    "options": [
+      "ReLU",
+      "Tanh",
+      "Sigmoid",
+      "Softmax"
+    ],
+    "answer": 3
+  },
+  {
+    "id": "dl_s1_q1",
+    "type": "multiple-choice",
+    "question": "What is the main purpose of the Backpropagation algorithm?",
+    "options": [
+      "Initializing the weights of a neural network.",
+      "Efficiently calculating the gradient of the loss function with respect to the weights.",
+      "Selecting the optimal network architecture.",
+      "Preprocessing the input data."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s1_q2",
+    "type": "yes-no",
+    "question": "Is the Backpropagation algorithm largely based on the chain rule of calculus?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s1_q3",
+    "type": "multiple-choice",
+    "question": "What problem frequently occurs when using Sigmoid or Tanh activation functions in deep networks?",
+    "options": [
+      "Exploding Gradients",
+      "Vanishing Gradients",
+      "Dying ReLUs",
+      "Excessive Activation"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s1_q4",
+    "type": "multiple-choice",
+    "question": "What is an advantage of the ReLU activation function over Sigmoid?",
+    "options": [
+      "It is always zero-centered.",
+      "It does not have issues with vanishing gradients for positive inputs.",
+      "It is a smooth, continuously differentiable function over its entire domain.",
+      "It always outputs probabilities."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s1_q5",
+    "type": "multiple-choice",
+    "question": "How is a Fully Connected Layer (Dense Layer) characterized?",
+    "options": [
+      "Each neuron is connected only to a small local region of the previous layer.",
+      "The weights are shared across different parts of the input.",
+      "Each neuron in the layer is connected to every neuron in the previous layer.",
+      "It is primarily used for pooling."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "dl_s1_q6",
+    "type": "multiple-choice",
+    "question": "What role do Hidden Layers play in a Multi-Layer Perceptron?",
+    "options": [
+      "They are exclusively for data normalization.",
+      "They enable the learning of complex, non-linear features and relationships.",
+      "They always reduce the dimensionality of the data.",
+      "They are only necessary for regression tasks."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s1_q7",
+    "type": "yes-no",
+    "question": "Is the basic idea of Gradient Descent to adjust weights in the direction of the steepest descent of the loss function?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s2_q1",
+    "type": "yes-no",
+    "question": "Is L2 Loss (Mean Squared Error) a typical choice for regression problems in Deep Learning?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s2_q2",
+    "type": "yes-no",
+    "question": "Is Cross-Entropy Loss frequently used for classification problems?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s2_q3",
+    "type": "multiple-choice",
+    "question": "What property does Hinge Loss, often used in the context of Support Vector Machines (SVMs), have?",
+    "options": [
+      "It penalizes all errors quadratically.",
+      "It only penalizes classification errors that are within a certain margin or on the wrong side of the decision boundary.",
+      "It is identical to Cross-Entropy Loss.",
+      "It is only suitable for regression problems."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s2_q4",
+    "type": "multiple-choice",
+    "question": "What is a subgradient?",
+    "options": [
+      "A gradient that is always zero.",
+      "A generalization of the gradient for non-smooth convex functions.",
+      "A gradient defined only for linear functions.",
+      "Another name for the Hessian matrix."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s2_q5",
+    "type": "multiple-choice",
+    "question": "What is a key difference between Batch Gradient Descent (BGD) and Stochastic Gradient Descent (SGD)?",
+    "options": [
+      "BGD uses only a subset of the dataset for each update, while SGD uses the entire dataset.",
+      "SGD uses the gradient of a single or few data points for each update, while BGD uses the gradient of the entire dataset.",
+      "BGD is always faster than SGD.",
+      "SGD can only be used for linear models."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s2_q6",
+    "type": "multiple-choice",
+    "question": "What purpose does the Momentum method serve in optimizing neural networks?",
+    "options": [
+      "It guarantees finding the global minimum.",
+      "It helps to dampen oscillations and accelerate convergence in flat regions of the loss function.",
+      "It eliminates the need for a learning rate.",
+      "It always leads to sparse weights."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s2_q7",
+    "type": "multiple-choice",
+    "question": "Which optimization algorithm combines the benefits of Momentum and adaptive learning rates (like AdaGrad/RMSProp)?",
+    "options": [
+      "Standard SGD",
+      "L-BFGS",
+      "Adam",
+      "Linear Regression"
+    ],
+    "answer": 2
+  },
+  {
+    "id": "dl_s2_q8",
+    "type": "yes-no",
+    "question": "Is it common to keep the learning rate constant throughout the training of a deep neural network?",
+    "options": ["No", "Yes"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s2_q9",
+    "type": "yes-no",
+    "question": "Can minimizing the Negative Log Likelihood be interpreted as maximizing the probability of the observed data under certain assumptions?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s3_q1",
+    "type": "multiple-choice",
+    "question": "What is the \"Dying ReLU\" problem?",
+    "options": [
+      "A ReLU neuron always outputs a very high value.",
+      "A ReLU neuron becomes permanently inactive and outputs 0 for all inputs, causing no gradient to flow.",
+      "The ReLU function is replaced by a Sigmoid function during training.",
+      "The derivative of the ReLU function is undefined everywhere."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s3_q2",
+    "type": "multiple-choice",
+    "question": "How does Leaky ReLU attempt to address the \"Dying ReLU\" problem?",
+    "options": [
+      "By having a larger gradient for positive inputs.",
+      "By allowing a small, non-zero gradient for negative inputs.",
+      "By capping the activation at a maximum value.",
+      "By adding random noise to the activations."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s3_q3",
+    "type": "yes-no",
+    "question": "Is the Swish (or SiLU) activation function defined as $f(x) = x \\cdot \\sigma(\\beta x)$, where $\\sigma$ is the Sigmoid function?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s3_q4",
+    "type": "multiple-choice",
+    "question": "Which principle is central to the efficiency and performance of Convolutional Neural Networks (CNNs) on image data?",
+    "options": [
+      "Every pixel is connected to every neuron in the first hidden layer.",
+      "The use of exclusively linear activation functions.",
+      "Shared weights (Parameter Sharing) and local receptive fields.",
+      "A very large number of Fully Connected Layers at the end of the network."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "dl_s3_q5",
+    "type": "multiple-choice",
+    "question": "What is the main function of a Convolutional Layer in a CNN?",
+    "options": [
+      "To reduce the dimensionality of the feature maps.",
+      "To apply learnable filters (kernels) for extracting local features.",
+      "To classify the input data.",
+      "To normalize the activations."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s3_q6",
+    "type": "multiple-choice",
+    "question": "What is the purpose of Padding in Convolutional Layers?",
+    "options": [
+      "It always increases the number of learnable parameters.",
+      "It helps to preserve or control the spatial dimensions of the feature maps after convolution.",
+      "It is solely for regularization.",
+      "It makes the activation function redundant."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s3_q7",
+    "type": "multiple-choice",
+    "question": "What is the effect of a Stride > 1 in a Convolutional Layer?",
+    "options": [
+      "An increase in the size of the output feature map.",
+      "A decrease (downsampling) in the size of the output feature map.",
+      "An increase in the number of filters.",
+      "A change in the activation function."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s3_q8",
+    "type": "multiple-choice",
+    "question": "What is a key advantage of 1x1 Convolutions (Network in Network)?",
+    "options": [
+      "They always increase spatial resolution.",
+      "They can be used for dimensionality reduction across channel depth and to introduce non-linearity.",
+      "They are only useful for text data.",
+      "They completely replace pooling layers."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s3_q9",
+    "type": "multiple-choice",
+    "question": "What operation does a Max Pooling Layer typically perform?",
+    "options": [
+      "It computes the average of values in a local region.",
+      "It selects the maximum value from a local region of the feature map.",
+      "It applies a learnable transformation to the region.",
+      "It increases the number of channels."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s3_q10",
+    "type": "yes-no",
+    "question": "Does Dilated (Atrous) Convolution allow a filter to cover a larger receptive field without significantly increasing the number of parameters or computational cost?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s3_q11",
+    "type": "multiple-choice",
+    "question": "What is the core idea behind Inception modules, as used in GoogLeNet?",
+    "options": [
+      "To use exclusively 3x3 convolutions.",
+      "To apply multiple convolutions with different filter sizes (e.g., 1x1, 3x3, 5x5) and pooling in parallel, then concatenate their results.",
+      "To completely dispense with pooling layers.",
+      "To use only a single deep convolutional layer."
+    ],
+    "answer": 1
+  },
+   {
+    "id": "dl_s4_q1",
+    "type": "multiple-choice",
+    "question": "What is meant by Overfitting in the context of Machine Learning?",
+    "options": [
+      "The model does not learn the training data well enough and generalizes poorly.",
+      "The model learns the training data too well, including noise, and therefore generalizes poorly to new, unseen data.",
+      "The model converges too slowly during training.",
+      "The model has too few parameters to solve the task."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s4_q2",
+    "type": "multiple-choice",
+    "question": "The Bias-Variance Tradeoff describes:",
+    "options": [
+      "That a model with high bias always has high variance.",
+      "That models with low complexity (high bias) often have low variance, while complex models (low bias) can be prone to high variance (overfitting).",
+      "That variance can always be reduced by increasing bias without affecting performance.",
+      "That a model's bias is always more important than its variance."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s4_q3",
+    "type": "multiple-choice",
+    "question": "What is the principle of Early Stopping as a regularization technique?",
+    "options": [
+      "Training is stopped after a fixed number of epochs.",
+      "Training is stopped as soon as the training loss reaches a certain threshold.",
+      "Training is stopped when performance on a separate validation dataset no longer improves or starts to worsen.",
+      "The learning rate is set to zero very early in training."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "dl_s4_q4",
+    "type": "yes-no",
+    "question": "Is Data Augmentation a technique to artificially increase the amount of training data by applying transformations to existing data?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s4_q5",
+    "type": "multiple-choice",
+    "question": "What effect does L2 Regularization (Weight Decay) typically have on the weights of a neural network?",
+    "options": [
+      "It causes many weights to become exactly zero (sparsity).",
+      "It penalizes large weight values, tending to result in smaller, more diffuse weights.",
+      "It increases the magnitude of the weights.",
+      "It has no effect on the weights, only on the activations."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s4_q6",
+    "type": "multiple-choice",
+    "question": "What effect does L1 Regularization promote in the weights?",
+    "options": [
+      "Small, but non-zero weights.",
+      "Sparsity, i.e., many weights become exactly zero.",
+      "Very large weight values.",
+      "Uniformly distributed weight values."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s4_q7",
+    "type": "multiple-choice",
+    "question": "How does Dropout work as a regularization method?",
+    "options": [
+      "It adds noise to the input data.",
+      "It reduces the number of layers in the network during training.",
+      "It randomly sets a fraction of neurons (their outputs) to zero during training.",
+      "It limits the maximum allowable size of the weights."
+    ],
+    "answer": 2
+  },
+  {
+    "id": "dl_s4_q8",
+    "type": "multiple-choice",
+    "question": "What is a primary goal of Batch Normalization (BN)?",
+    "options": [
+      "To reduce the number of parameters in the network.",
+      "To normalize the activations of each layer to mitigate the \"Internal Covariate Shift\" problem and stabilize training.",
+      "To augment the input data before training.",
+      "To replace the loss function with a convex one."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s4_q9",
+    "type": "yes-no",
+    "question": "Does Xavier initialization (also Glorot initialization) aim to keep the variance of activations and gradients roughly constant across layers?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s4_q10",
+    "type": "yes-no",
+    "question": "Is He initialization specifically designed for networks using ReLU activation functions?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s4_q11",
+    "type": "multiple-choice",
+    "question": "What is Transfer Learning in the context of Deep Learning?",
+    "options": [
+      "Training a model from scratch for every new task.",
+      "Transferring knowledge (e.g., learned weights) from a pre-trained model to a new, related task.",
+      "Training exclusively on synthetic data.",
+      "Replacing all convolutional layers with fully connected layers."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s4_q12",
+    "type": "yes-no",
+    "question": "Can Multi-Task Learning (MTL), where a model learns multiple tasks simultaneously, improve generalization and act as a form of regularization?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s5_q1",
+    "type": "yes-no",
+    "question": "Should the test dataset be used for hyperparameter optimization?",
+    "options": ["No", "Yes"],
+    "answer": 0
+  },
+  {
+    "id": "dl_s5_q2",
+    "type": "multiple-choice",
+    "question": "Which strategy is often more efficient for hyperparameter search than Grid Search?",
+    "options": [
+      "Manual Search",
+      "Random Search",
+      "Always using default values",
+      "Linear Search"
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s5_q3",
+    "type": "multiple-choice",
+    "question": "What is a disadvantage of using Accuracy as the sole metric on highly imbalanced class datasets?",
+    "options": [
+      "It is too difficult to calculate.",
+      "It can be misleading, as a model that always predicts the majority class can achieve high accuracy.",
+      "It does not account for False Positives.",
+      "It is only suitable for regression problems."
+    ],
+    "answer": 1
+  },
+  {
+    "id": "dl_s5_q4",
+    "type": "yes-no",
+    "question": "Can ensembling multiple models improve the overall performance of a Deep Learning system?",
+    "options": ["Yes", "No"],
+    "answer": 0
+  }
+]
