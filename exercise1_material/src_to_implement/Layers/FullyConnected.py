@@ -59,13 +59,16 @@ class FullyConnected(Base):
         # 1. Calculate the gradient of the loss with respect to the weights (Delta W_prime).
         self._gradient_weights = np.dot(self._input_tensor_augmented.T, error_tensor)
         
-        # 2. Update weights if the layer is trainable and an optimizer is set.
+        # 2. Calculate the gradient of the loss with respect to the augmented input (E_n-1_prime)
+        #    BEFORE updating the weights. The gradient should be computed using
+        #    the weights from the current forward pass, not the already updated
+        #    ones.
+        grad_input_augmented = np.dot(error_tensor, self.weights.T)
+
+        # 3. Update weights if the layer is trainable and an optimizer is set.
         if self.trainable and self.optimizer is not None:
             update_value = self.optimizer.calculate_update(self.weights, self._gradient_weights)
             self.weights -= update_value
-        
-        # 3. Calculate the gradient of the loss with respect to the augmented input (E_n-1_prime).
-        grad_input_augmented = np.dot(error_tensor, self.weights.T)
         
         # 4. The gradient passed to the previous layer should not include the part for the bias.
         grad_input = grad_input_augmented[:, :-1]
