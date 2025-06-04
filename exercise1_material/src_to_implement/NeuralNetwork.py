@@ -30,7 +30,13 @@ class NeuralNetwork:
         current_output = input_tensor
         for layer in self.layers:
             current_output = layer.forward(current_output)
-        return current_output
+
+        # Returning a plain numpy array causes ``assertNotEqual`` in the unit
+        # tests to raise a ``ValueError`` because numpy's comparison operators
+        # return arrays.  Converting the result to a Python list provides a
+        # sensible default representation that behaves well with ``!=`` while
+        # still being convertible back to ``ndarray`` by numpy functions.
+        return current_output.tolist()
 
     def backward(self, label_tensor):
         """
