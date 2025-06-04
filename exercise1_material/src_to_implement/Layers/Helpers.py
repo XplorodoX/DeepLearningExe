@@ -136,11 +136,16 @@ class IrisData:
     def __init__(self, batch_size):
         self.batch_size = batch_size
         self._data = load_iris()
-        # scikit-learn < 1.2 uses the parameter name ``sparse`` instead of
-        # ``sparse_output``.  The provided requirements specify
-        # scikit-learn==1.1.3, therefore ``sparse_output`` leads to a
-        # ``TypeError``.  Use ``sparse=False`` for compatibility.
-        self._label_tensor = OneHotEncoder(sparse=False).fit_transform(
+        # scikit-learn >= 1.2 renamed the ``sparse`` keyword argument of
+        # :class:`OneHotEncoder` to ``sparse_output``.  To keep compatibility
+        # with both old and new versions we try to instantiate the encoder with
+        # ``sparse_output`` first and fall back to ``sparse`` if this fails.
+        try:
+            encoder = OneHotEncoder(sparse_output=False)
+        except TypeError:
+            encoder = OneHotEncoder(sparse=False)
+
+        self._label_tensor = encoder.fit_transform(
             self._data.target.reshape(-1, 1)
         )
         self._input_tensor = self._data.data
