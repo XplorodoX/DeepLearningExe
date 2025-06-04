@@ -13,6 +13,6 @@ class Sgd:
         Calculate the update for the weights.
         :param weight_tensor: Current weights of the layer.
         :param gradient_tensor: Gradient of the loss with respect to the weights.
-        :return: Update amount to subtract from weights.
+        :return: Updated weight tensor.
         """
-        return self.learning_rate * gradient_tensor 
+        return weight_tensor - self.learning_rate * gradient_tensor
