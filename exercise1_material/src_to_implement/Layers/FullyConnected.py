@@ -67,8 +67,12 @@ class FullyConnected(Base):
 
         # 3. Update weights if the layer is trainable and an optimizer is set.
         if self.trainable and self.optimizer is not None:
-            update_value = self.optimizer.calculate_update(self.weights, self._gradient_weights)
-            self.weights -= update_value
+            # ``calculate_update`` is expected to return the updated weight
+            # matrix directly.  Assign its result instead of subtracting the
+            # returned value from ``self.weights``.
+            self.weights = self.optimizer.calculate_update(
+                self.weights, self._gradient_weights
+            )
         
         # 4. The gradient passed to the previous layer should not include the part for the bias.
         grad_input = grad_input_augmented[:, :-1]

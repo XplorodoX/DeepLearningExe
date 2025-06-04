@@ -17,6 +17,7 @@ class Sgd:
         :param gradient_tensor: Gradient of the loss with respect to the weights.
         :return: Updated weights.
         """
-        # This line performs the standard SGD update.
-        # new_weights = current_weights - learning_rate * gradient
+        # Perform the standard SGD update and return the updated weights.
+        # ``weight_tensor`` is not modified in-place to keep this method
+        # stateless.
         return weight_tensor - self.learning_rate * gradient_tensor
