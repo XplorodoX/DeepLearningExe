@@ -1,5 +1,5 @@
 import numpy as np
-import copy # Import the copy module
+import copy
 
 class NeuralNetwork:
     def __init__(self, optimizer):
@@ -9,9 +9,9 @@ class NeuralNetwork:
         """
         self.optimizer = optimizer
         self.layers = []
-        self.loss = []  # Task refers to this as 'loss' list
-        self.data_layer = None  # Will be set by unit tests
-        self.loss_layer = None  # Will be set by unit tests (replaces loss_function)
+        self.loss = []
+        self.data_layer = None
+        self.loss_layer = None
 
     def forward(self, input_tensor=None):
         """
@@ -22,7 +22,6 @@ class NeuralNetwork:
         :return: Output tensor from the last layer in self.layers (predictions).
         """
         if input_tensor is None:
-            # Use data_layer when no input_tensor is provided
             if self.data_layer is None:
                 raise ValueError("Data layer not set for the network. Cannot perform forward pass.")
             input_tensor, _ = self.data_layer.next()
@@ -53,7 +52,7 @@ class NeuralNetwork:
         Append a new layer to the network.
         If the layer is trainable and the network has an optimizer,
         a deep copy of the network's optimizer is assigned to the layer.
-        :param layer: Layer to be added (must be an instance of a BaseLayer subclass).
+        :param layer: Layer to be added.
         """
         # Assign a deep copy of the network's optimizer to trainable layers
         if hasattr(layer, 'trainable') and layer.trainable and self.optimizer is not None:
@@ -73,9 +72,9 @@ class NeuralNetwork:
         if self.loss_layer is None:
             raise ValueError("Loss layer not set for the network. Cannot train.")
 
-        self.loss = []  # Clear loss history for the new training session
+        self.loss = []
         for i in range(iterations):
-            # 1. Get input and labels from the data layer for the current iteration/batch
+            # 1. Get input and labels from the data layer
             input_tensor, label_tensor = self.data_layer.next()
 
             # 2. Forward pass: Get predictions from the network
@@ -95,13 +94,7 @@ class NeuralNetwork:
     def test(self, input_tensor):
         """
         Test the network on a given input_tensor.
-        Propagates the input_tensor through the network and returns the prediction
-        of the last layer in self.layers. No loss is calculated here, and no
-        backward pass or weight updates are performed.
         :param input_tensor: Input tensor for testing.
         :return: Prediction tensor from the last layer of the network.
         """
-        # Perform a forward pass to get predictions
-        predictions = self.forward(input_tensor)
-        return predictions
-
+        return self.forward(input_tensor)
