@@ -6,93 +6,102 @@ class NeuralNetwork:
         """
         Initialize the Neural Network.
         :param optimizer: Optimizer instance to be used for weight updates in layers.
-        # The loss_function parameter was removed from __init__ as per the latest snippet,
-        # assuming it's set elsewhere or not part of this specific problem.
-        # If it's needed, it should be added back.
         """
         self.optimizer = optimizer
         self.layers = []
-        self.loss_history = []
-        self.loss_function = None # Initialize loss_function attribute
+        self.loss = []  # Task refers to this as 'loss' list
+        self.data_layer = None  # Will be set by unit tests
+        self.loss_layer = None  # Will be set by unit tests (replaces loss_function)
 
-    def forward(self, input_tensor):
+    def forward(self, input_tensor=None):
         """
-        Perform a forward pass through the network.
-        :param input_tensor: Input tensor to the network.
-        :return: Output tensor from the network (predictions).
+        Perform a forward pass through the network's layers.
+        If input_tensor is provided, use it directly.
+        Otherwise, get data from self.data_layer.
+        :param input_tensor: Optional input tensor. If None, data is fetched from data_layer.
+        :return: Output tensor from the last layer in self.layers (predictions).
         """
+        if input_tensor is None:
+            # Use data_layer when no input_tensor is provided
+            if self.data_layer is None:
+                raise ValueError("Data layer not set for the network. Cannot perform forward pass.")
+            input_tensor, _ = self.data_layer.next()
+    
         current_output = input_tensor
         for layer in self.layers:
             current_output = layer.forward(current_output)
         return current_output
 
-    def backward(self, label_tensor, prediction_tensor):
+    def backward(self, label_tensor):
         """
         Perform a backward pass through the network.
-        This starts with the gradient from the loss function.
+        This starts with the gradient from the loss_layer.
         :param label_tensor: True labels.
-        :param prediction_tensor: Predictions from the forward pass.
         """
-        if self.loss_function is None:
-            raise ValueError("Loss function not set for the network.")
+        if self.loss_layer is None:
+            raise ValueError("Loss layer not set for the network. Cannot perform backward pass.")
 
         # Calculate the gradient of the loss with respect to the network's output
-        error_tensor = self.loss_function.backward(prediction_tensor, label_tensor)
+        error_tensor = self.loss_layer.backward(label_tensor)
 
-        # Propagate the error backward through the layers
+        # Propagate the error backward through the layers in reverse order
         for layer in reversed(self.layers):
             error_tensor = layer.backward(error_tensor)
-            # Note: Weight updates are handled within each layer's backward method
-            # if its optimizer is set and it's trainable, as per FullyConnected design.
 
     def append_layer(self, layer):
         """
         Append a new layer to the network.
-        The layer will be assigned a deep copy of the network's optimizer instance if trainable.
+        If the layer is trainable and the network has an optimizer,
+        a deep copy of the network's optimizer is assigned to the layer.
         :param layer: Layer to be added (must be an instance of a BaseLayer subclass).
         """
-        if layer.trainable and self.optimizer is not None:
-            # Assign a deep copy of the network's optimizer to the layer
+        # Assign a deep copy of the network's optimizer to trainable layers
+        if hasattr(layer, 'trainable') and layer.trainable and self.optimizer is not None:
             layer.optimizer = copy.deepcopy(self.optimizer)
+    
         self.layers.append(layer)
 
-    def train(self, input_tensor, label_tensor, iterations):
+    def train(self, iterations):
         """
         Train the network for a specified number of iterations.
-        :param input_tensor: Training input data.
-        :param label_tensor: Training true labels.
+        Data is fetched from self.data_layer for each iteration.
+        Loss is calculated using self.loss_layer.
         :param iterations: Number of training iterations.
         """
-        if self.loss_function is None:
-            raise ValueError("Loss function not set for the network. Cannot train.")
+        if self.data_layer is None:
+            raise ValueError("Data layer not set for the network. Cannot train.")
+        if self.loss_layer is None:
+            raise ValueError("Loss layer not set for the network. Cannot train.")
 
-        self.loss_history = []
+        self.loss = []  # Clear loss history for the new training session
         for i in range(iterations):
-            # 1. Forward pass
+            # 1. Get input and labels from the data layer for the current iteration/batch
+            input_tensor, label_tensor = self.data_layer.next()
+
+            # 2. Forward pass: Get predictions from the network
             predictions = self.forward(input_tensor)
 
-            # 2. Calculate loss
-            current_loss = self.loss_function.forward(predictions, label_tensor)
-            self.loss_history.append(current_loss)
+            # 3. Calculate loss using the loss_layer
+            current_loss = self.loss_layer.forward(predictions, label_tensor)
+            self.loss.append(current_loss)
 
-            # 3. Backward pass (calculates gradients and updates weights in layers)
-            self.backward(label_tensor, predictions)
+            # 4. Backward pass: Calculate gradients and update weights
+            self.backward(label_tensor)
 
-            if (i + 1) % max(1, iterations // 10) == 0 or i == iterations -1 : # Print progress
-                print(f"Iteration {i+1}/{iterations}, Loss: {current_loss:.4f}")
+            # Print progress at intervals
+            if (i + 1) % max(1, iterations // 10) == 0 or i == iterations - 1:
+                print(f"Iteration {i + 1}/{iterations}, Loss: {current_loss:.4f}")
 
-
-    def test(self, input_tensor, label_tensor):
+    def test(self, input_tensor):
         """
-        Test the network on a given input and labels.
-        Calculates the loss without performing a backward pass or updating weights.
+        Test the network on a given input_tensor.
+        Propagates the input_tensor through the network and returns the prediction
+        of the last layer in self.layers. No loss is calculated here, and no
+        backward pass or weight updates are performed.
         :param input_tensor: Input tensor for testing.
-        :param label_tensor: True labels for the input tensor.
-        :return: Loss value for the test data.
+        :return: Prediction tensor from the last layer of the network.
         """
-        if self.loss_function is None:
-            raise ValueError("Loss function not set for the network. Cannot test.")
-
+        # Perform a forward pass to get predictions
         predictions = self.forward(input_tensor)
-        loss = self.loss_function.forward(predictions, label_tensor)
-        return loss
+        return predictions
+
