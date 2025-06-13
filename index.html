@@ -443,6 +443,37 @@
             </div>
         </section>
 
+        <section id="architectures" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section7Title">7. Moderne CNN-Architekturen</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section7Intro">
+                Überblick über wichtige CNN-Architekturen und deren Schlüsselfeatures.
+            </p>
+            <div class="concept-box">
+                <ul class="list-none space-y-2">
+                    <li class="explanation-point" data-i18n="archLeNet"><strong>LeNet-5 (1998):</strong> Frühe CNN-Architektur für Ziffernerkennung, nutzt Faltung, Pooling und tanh-Aktivierungen.</li>
+                    <li class="explanation-point" data-i18n="archAlexNet"><strong>AlexNet (2012):</strong> Mehrschichtiges CNN mit ReLUs, Dropout und Datenaugmentation; GPU-basiertes Training und ImageNet-Durchbruch.</li>
+                    <li class="explanation-point" data-i18n="archVGG"><strong>VGG (2014):</strong> Sehr tiefe Netze mit vielen 3×3-Convolutions; rechenintensiv.</li>
+                    <li class="explanation-point" data-i18n="archInception"><strong>Inception/GoogleNet:</strong> Parallele Filterpfade und 1×1-Bottleneck-Convolutions; nutzt Auxiliary Classifier.</li>
+                    <li class="explanation-point" data-i18n="archResNet"><strong>ResNet:</strong> Residual-Blöcke erlauben das Training sehr tiefer Netze.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="rnns" class="bg-white p-8 rounded-lg shadow-xl">
+            <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="section8Title">8. Recurrent Neural Networks (RNNs)</h2>
+            <p class="text-lg mb-6 text-gray-700 leading-relaxed" data-i18n="section8Intro">
+                RNNs verarbeiten sequenzielle Daten, indem sie Informationen über Zeitpunkte hinweg weiterreichen.
+            </p>
+            <div class="concept-box">
+                <ul class="list-none space-y-2">
+                    <li class="explanation-point" data-i18n="rnnBasic"><strong>Simple RNN:</strong> Rückkopplungsnetzwerke, trainiert via Backpropagation Through Time; anfällig für Vanishing/Exploding Gradients.</li>
+                    <li class="explanation-point" data-i18n="rnnLSTM"><strong>LSTM:</strong> Führt Speicherzellen und Forget-/Input-/Output-Gates ein, um lange Abhängigkeiten zu lernen.</li>
+                    <li class="explanation-point" data-i18n="rnnGRU"><strong>GRU:</strong> Vereinfachte Variante ohne separate Zellzustände, nutzt Reset- und Update-Gates.</li>
+                    <li class="explanation-point" data-i18n="rnnApplications"><strong>Anwendungen:</strong> Sprach- und Textverarbeitung, Musik- und Videoanalyse, Zeitreihen.</li>
+                </ul>
+            </div>
+        </section>
+
         <section id="quiz" class="bg-white p-8 rounded-lg shadow-xl">
             <h2 class="text-3xl font-semibold mb-8 text-center text-purple-700" data-i18n="quizSectionTitle">Deep Learning Wissens-Quiz</h2>
             <div id="quiz-area" class="quiz-container max-w-2xl mx-auto">
@@ -569,6 +600,19 @@
                 cpStatisticalSignificance: "<strong>Statistische Signifikanz:</strong> Vergleiche Modelle nicht nur anhand einzelner Zahlen, sondern prüfe, ob Unterschiede statistisch signifikant sind (z.B. durch mehrmaliges Training mit unterschiedlichen Seeds).",
                 cpEnsemblingTitle: "Ensembling",
                 cpEnsemblingDesc: "Kombiniere die Vorhersagen mehrerer unabhängiger Modelle (oder verschiedener Checkpoints desselben Modells), um die Gesamtperformance oft leicht zu verbessern. Dies reduziert die Varianz.",
+                section7Title: "7. Moderne CNN-Architekturen",
+                section7Intro: "Ein Überblick über wichtige CNN-Architekturen und deren zentrale Merkmale.",
+                archLeNet: "<strong>LeNet-5 (1998):</strong> Frühe CNN-Architektur für Ziffernerkennung, nutzt Faltung, Pooling und tanh-Aktivierungen.",
+                archAlexNet: "<strong>AlexNet (2012):</strong> Mehrschichtiges CNN mit ReLUs, Dropout und Datenaugmentation; GPU-basiertes Training und ImageNet-Durchbruch.",
+                archVGG: "<strong>VGG (2014):</strong> Sehr tiefe Netze mit vielen 3×3-Convolutions; rechenintensiv.",
+                archInception: "<strong>Inception/GoogleNet:</strong> Parallele Filterpfade und 1×1-Bottleneck-Convolutions; nutzt Auxiliary Classifier.",
+                archResNet: "<strong>ResNet:</strong> Residual-Blöcke erlauben das Training sehr tiefer Netze.",
+                section8Title: "8. Recurrent Neural Networks (RNNs)",
+                section8Intro: "RNNs verarbeiten sequenzielle Daten, indem sie Hidden States über Zeit weiterreichen.",
+                rnnBasic: "<strong>Simple RNN:</strong> Rückkopplungsnetzwerke, trainiert via Backpropagation Through Time; anfällig für Vanishing/Exploding Gradients.",
+                rnnLSTM: "<strong>LSTM:</strong> Führt Speicherzellen und Forget-/Input-/Output-Gates ein, um lange Abhängigkeiten zu lernen.",
+                rnnGRU: "<strong>GRU:</strong> Vereinfachte Variante ohne separate Zellzustände, nutzt Reset- und Update-Gates.",
+                rnnApplications: "<strong>Anwendungen:</strong> Sprach- und Textverarbeitung, Musik- und Videoanalyse, Zeitreihen.",
                 quizSectionTitle: "Deep Learning Wissens-Quiz",
                 quizJsonLoading: "Lade Quizdaten...",
                 quizLoading: "Frage wird geladen...",
@@ -681,6 +725,19 @@
                 cpStatisticalSignificance: "<strong>Statistical Significance:</strong> Don't just compare models based on single numbers; check if differences are statistically significant (e.g., by training multiple times with different seeds).",
                 cpEnsemblingTitle: "Ensembling",
                 cpEnsemblingDesc: "Combine predictions from multiple independent models (or different checkpoints of the same model) to often slightly improve overall performance. This reduces variance.",
+                section7Title: "7. Modern CNN Architectures",
+                section7Intro: "Overview of important CNN architectures and their key features.",
+                archLeNet: "<strong>LeNet-5 (1998):</strong> Early CNN for digit recognition using convolution, pooling, and tanh activations.",
+                archAlexNet: "<strong>AlexNet (2012):</strong> Multi-layer CNN with ReLUs, dropout and data augmentation; GPU-based training and ImageNet breakthrough.",
+                archVGG: "<strong>VGG (2014):</strong> Very deep networks with many 3×3 convolutions; computationally demanding.",
+                archInception: "<strong>Inception/GoogleNet:</strong> Parallel filter paths and 1×1 bottleneck convolutions; uses auxiliary classifiers.",
+                archResNet: "<strong>ResNet:</strong> Introduced residual blocks enabling training of very deep networks.",
+                section8Title: "8. Recurrent Neural Networks (RNNs)",
+                section8Intro: "RNNs process sequential data by passing hidden states through time.",
+                rnnBasic: "<strong>Simple RNN:</strong> Uses feedback loops and is trained via Backpropagation Through Time; suffers from vanishing/exploding gradients.",
+                rnnLSTM: "<strong>LSTM:</strong> Adds memory cells and forget/input/output gates to capture long-term dependencies.",
+                rnnGRU: "<strong>GRU:</strong> Simplified variant without a separate cell state, using reset and update gates.",
+                rnnApplications: "<strong>Applications:</strong> Language and text processing, music and video analysis, time-series data.",
                 quizSectionTitle: "Deep Learning Knowledge Quiz",
                 quizJsonLoading: "Loading quiz data...",
                 quizLoading: "Loading question...",
